@@ -177,7 +177,9 @@
                 <div class="table-body" *ngFor="let coin of result" id="tr_coin_{{coin.ms_id}}">
                   <div class="table-item-lhs">
                     <div class="table-item">
-                      <div class="table-body-list">{{coin.coin}}</div>
+                      <div class="table-body-list">
+                        <a href="{{base_url}}coin/{{coin.ms_id}}">{{coin.coin}}</a>
+                      </div>
                     </div>
                   </div>
                   <div class="table-item-rhs">
@@ -258,7 +260,9 @@
                 <div class="table-body" *ngFor="let coin of allresult" id="tr_exchange_{{coin.ms_id}}">
                   <div class="table-item-lhs">
                     <div class="table-item">
-                      <div class="table-body-list">{{coin.coin}}</div>
+                      <div class="table-body-list">
+                        <a href="{{base_url}}coin/{{coin.ms_id}}">{{coin.coin}}</a>
+                      </div>
                     </div>
                   </div>
                   <div class="table-item-rhs">
