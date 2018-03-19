@@ -1,0 +1,298 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane active" id="all-exchange">
+          <div class="main-table">
+            <div class="table-top">
+              <div class="filter-box">
+                <div class="filter-exchange">
+                  <div class="filter-input">
+                    <label>
+                      exchange
+                    </label>
+                    <select class="selectpicker btn btn-default" #e id="sel_exchange" (change)="exchangechange(e.value)">
+                      <ng-container *ngFor="let exch of exchangelist;let i = index">
+                        <option value="{{exch.ex_id}}">{{exch.name}}</option>
+                      </ng-container>
+                      <option value="">All</option>
+                    </select>
+
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="filter-markets">
+                  <div class="filter-coin">
+                    <label>Market</label>
+                    <ul class="list-unstyled coin-filter-btn">
+                      <li (click)="toggleClass('BTC',1, selectedTable)" [ngClass]="selectedIndex == 1 ? 'active':''" [style.pointer-events]="selectedIndex == 1 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">BTC</a>
+                      </li>
+                      <li (click)="toggleClass('ETH',2, selectedTable)" [ngClass]="selectedIndex == 2 ? 'active':''" [style.pointer-events]="selectedIndex == 2 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">ETH</a>
+                      </li>
+                      <li (click)="toggleClass('USD',3, selectedTable)" [ngClass]="selectedIndex == 3 ? 'active':''" [style.pointer-events]="selectedIndex == 3 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">USD</a>
+                      </li>
+                      <li (click)="toggleClass('USDT',4, selectedTable)" [ngClass]="selectedIndex == 4 ? 'active':''" [style.pointer-events]="selectedIndex == 4 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">USDT</a>
+                      </li>
+                      <li (click)="toggleClass('',5, selectedTable)" [ngClass]="selectedIndex == 5 ? 'active':''" [style.pointer-events]="selectedIndex == 5 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">All</a>
+                      </li>
+
+                    </ul>
+                  </div>
+
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+              <div class="filter-box" style="width:63.33334%;">
+                <div>
+                  <h5 style="text-align: right">Page refresh in :
+                    <span id="timer">{{countDown | async}}</span> second
+                  </h5>
+                </div>
+                <div class="filter-dropdown text-right">
+                  <label>
+                    Show Column :
+                  </label>
+                  <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="filter-menu1" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="true">
+                      Volume
+                    </button>
+                    <ul class="dropdown-menu filter-table" aria-labelledby="filter-menu">
+                      <li>
+                        <a href="javascript:;" data-table="#coin" (click)="changeColumn(1,'Volume')">Volume</a>
+                      </li>
+                      <li>
+                        <a href="javascript:;" data-table="#exchange" (click)="changeColumn(2,'Base Volume')">Base Volume</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="filter-dropdown text-right">
+                  <label>
+                    Filter By:
+                  </label>
+                  <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="filter-menu" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="true">
+                      Coin
+                    </button>
+                    <ul class="dropdown-menu filter-table" aria-labelledby="filter-menu">
+                      <li>
+                        <a href="javascript:;" data-table="#coin" (click)="changeTable(1,'coin','Coin')">Coin</a>
+                      </li>
+                      <li>
+                        <a href="javascript:;" data-table="#exchange" (click)="changeTable(2,'exchange','Exchange')">Exchange</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <ul class="list-unstyled exchange-list text-right">
+                  <li (click)="toggleTime('1h',1,selectedTable)" [ngClass]="selectedTime == 1 ? 'active':''" [style.pointer-events]="selectedTime == 1 ? 'none':'initial'">
+                    <a href="javascript:;" class="btn btn-exchange">1H</a>
+                  </li>
+                  <li (click)="toggleTime('12h',2,selectedTable)" [ngClass]="selectedTime == 2 ? 'active':''" [style.pointer-events]="selectedTime == 2 ? 'none':'initial'">
+                    <a href="javascript:;" class="btn btn-exchange">12H</a>
+                  </li>
+                  <li (click)="toggleTime('24h',3,selectedTable)" [ngClass]="selectedTime == 3 ? 'active':''" [style.pointer-events]="selectedTime == 3 ? 'none':'initial'">
+                    <a href="javascript:;" class="btn btn-exchange">24H</a>
+                  </li>
+                  <!-- <li (click)="toggleTime('3d',4,selectedTable)" [ngClass]="selectedTime == 4 ? 'active':''" [style.pointer-events]="selectedTime == 4 ? 'none':'initial'">
+                    <a href="javascript:;" class="btn btn-exchange">3D</a>
+                  </li>
+                  <li (click)="toggleTime('7d',5,selectedTable)" [ngClass]="selectedTime == 5 ? 'active':''" [style.pointer-events]="selectedTime == 5 ? 'none':'initial'">
+                    <a href="javascript:;" class="btn btn-exchange">7D</a>
+                  </li>
+                  <li (click)="toggleTime('30d',6,selectedTable)" [ngClass]="selectedTime == 6 ? 'active':''" [style.pointer-events]="selectedTime == 6 ? 'none':'initial'">
+                    <a href="javascript:;" class="btn btn-exchange">30D</a>
+                  </li> -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="table-content" *ngIf="showloader" style="text-align:center;">
+              <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
+            </div>
+            <div class="table-content table-change table1" *ngIf="!showloader" [ngClass]="selectedTable == 1 ? '' : 'hidden'">
+              <table class="table table-responsive" *ngIf="result == ''">
+                <thead>
+                  <tr>
+                    <th>Coin</th>
+                    <th>Exchange</th>
+                    <th>Base</th>
+                    <th>Last Price</th>
+                    <th>Change</th>
+                    <th>Bid</th>
+                    <th>Ask</th>
+                    <th [style.display]="selectedColumn == 2 ? 'none':'table-cell'">Volume</th>
+                    <th [style.display]="selectedColumn == 1 ? 'none':'table-cell'">Base Volume</th>
+                    <th>Low</th>
+                    <th>High</th>
+                    <th>Buy Order</th>
+                    <th>Sell Order</th>
+                    <!-- <th>Min Conf.</th> -->
+                    <!-- <th>Trans Fee</th> -->
+                  </tr>
+                </thead>
+              
+                <tbody>
+                  <tr>
+                    <td colspan="12" align="center">No data found</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="table-head" *ngIf="result != ''">
+                <div class="table-item-lhs">
+                  <div class="table-item">
+                    <div class="table-head-list">Coin</div>
+                  </div>
+                </div>
+                <div class="table-item-rhs">
+                  <div class="table-item">
+                    <div class="table-head-list">Exchange</div>
+                    <div class="table-head-list">Base</div>
+                    <div class="table-head-list">Last Price</div>
+                    <div class="table-head-list">Change</div>
+                    <div class="table-head-list">Bid</div>
+                    <div class="table-head-list">Ask</div>
+                    <div class="table-head-list" [style.display]="selectedColumn == 2 ? 'none':'table-cell'">Volume</div>
+                    <div class="table-head-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'">Base Volume</div>
+                    <div class="table-head-list">Low</div>
+                    <div class="table-head-list">High</div>
+                    <div class="table-head-list">Buy Order</div>
+                    <div class="table-head-list">Sell Order</div>
+                    <!-- <div class="table-head-list">Min Conf.</div> -->
+                    <!-- <div class="table-head-list">Trans Fee</div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="main-tbody" *ngIf="result != ''">
+                <div class="table-body" *ngFor="let coin of result" id="tr_coin_{{coin.ms_id}}">
+                  <div class="table-item-lhs">
+                    <div class="table-item">
+                      <div class="table-body-list">{{coin.coin}}</div>
+                    </div>
+                  </div>
+                  <div class="table-item-rhs">
+                    <div class="table-item" *ngFor="let item of coin.coindata">
+                      <div class="table-body-list">{{item.exchange}}</div>
+                      <div class="table-body-list">{{item.base_currency}}</div>
+                      <div class="table-body-list" id="coin_last_{{item.ms_id}}">{{item.last | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_change_{{item.ms_id}}" [ngClass]="(((item.last-item.prev_day)/item.last)*100) > 0 ? 'green' : 'red'">{{((item.last-item.prev_day)/item.last)*100 | number : '1.0-2'}}%</div>
+                      <div class="table-body-list" id="coin_bid_{{item.ms_id}}">{{item.bid | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_ask_{{item.ms_id}}">{{item.ask | number : '1.0-8'}}</div>
+                      <div class="table-body-list" [style.display]="selectedColumn == 2 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.volume | number : '1.0-2'}}</div>
+                      <div class="table-body-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.base_volume | number : '1.0-2'}}</div>
+                      <div class="table-body-list" id="coin_low_{{item.ms_id}}">{{item.low | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_high_{{item.ms_id}}">{{item.high | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_order_{{item.ms_id}}">{{item.open_buy_orders}}</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}">{{item.open_sell_orders}}</div>
+                      <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
+                      <!-- <div class="table-body-list" id="coin_fee_{{item.ms_id}}">{{item.transaction_fee}}</div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-content table2" *ngIf="!showloader" [ngClass]="selectedTable == 2 ? '' : 'hidden'">
+              <table class="table table-responsive" id="tbl-exchange" *ngIf="allresult == ''">
+                <thead>
+                  <tr>
+                    <th>Coin</th>
+                    <th>Exchange</th>
+                    <th>Base</th>
+                    <th>Last Price</th>
+                    <th>Change</th>
+                    <th>Bid</th>
+                    <th>Ask</th>
+                    <th [style.display]="selectedColumn == 2 ? 'none':'table-cell'">Volume</th>
+                    <th [style.display]="selectedColumn == 1 ? 'none':'table-cell'">Base Volume</th>
+                    <th>Low</th>
+                    <th>High</th>
+                    <th>Buy Order</th>
+                    <th>Sell Order</th>
+                    <!-- <th>Min Conf.</th> -->
+                    <!-- <th>Trans Fee</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td colspan="12" align="center">No data found</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="table-head" *ngIf="allresult != ''">
+                <div class="table-item-lhs">
+                  <div class="table-item">
+                    <div class="table-head-list">Coin</div>
+                  </div>
+                </div>
+                <div class="table-item-rhs">
+                  <div class="table-item">
+                    <div class="table-head-list">Exchange</div>
+                    <div class="table-head-list">Base</div>
+                    <div class="table-head-list">Last Price</div>
+                    <div class="table-head-list">Change</div>
+                    <div class="table-head-list">Bid</div>
+                    <div class="table-head-list">Ask</div>
+                    <div class="table-head-list" [style.display]="selectedColumn == 2 ? 'none':'table-cell'">Volume</div>
+                    <div class="table-head-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'">Base Volume</div>
+                    <div class="table-head-list">Low</div>
+                    <div class="table-head-list">High</div>
+                    <div class="table-head-list">Buy Order</div>
+                    <div class="table-head-list">Sell Order</div>
+                    <!-- <div class="table-head-list">Min Conf.</div> -->
+                    <!-- <div class="table-head-list">Trans Fee</div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="main-tbody" *ngIf="allresult != ''">
+                <div class="table-body" *ngFor="let coin of allresult" id="tr_exchange_{{coin.ms_id}}">
+                  <div class="table-item-lhs">
+                    <div class="table-item">
+                      <div class="table-body-list">{{coin.coin}}</div>
+                    </div>
+                  </div>
+                  <div class="table-item-rhs">
+                    <div class="table-item" *ngFor="let item of coin.coindata">
+                      <div class="table-body-list">{{item.exchange}}</div>
+                      <div class="table-body-list">{{item.base_currency}}</div>
+                      <div class="table-body-list" id="coin_last_{{item.ms_id}}">{{item.last | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_change_{{item.ms_id}}" [ngClass]="(((item.last-item.prev_day)/item.last)*100) > 0 ? 'green' : 'red'">{{((item.last-item.prev_day)/item.last)*100 | number : '1.0-2'}}%</div>
+                      <div class="table-body-list" id="coin_bid_{{item.ms_id}}">{{item.bid | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_ask_{{item.ms_id}}">{{item.ask | number : '1.0-8'}}</div>
+                      <div class="table-body-list" [style.display]="selectedColumn == 2 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.volume | number : '1.0-2'}}</div>
+                      <div class="table-body-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.base_volume | number : '1.0-2'}}</div>
+                      <div class="table-body-list" id="coin_low_{{item.ms_id}}">{{item.low | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_high_{{item.ms_id}}">{{item.high | number : '1.0-8'}}</div>
+                      <div class="table-body-list" id="coin_order_{{item.ms_id}}">{{item.open_buy_orders}}</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}">{{item.open_sell_orders}}</div>
+                      <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
+                      <!-- <div class="table-body-list" id="coin_fee_{{item.ms_id}}">{{item.transaction_fee}}</div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="messages">
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="settings">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

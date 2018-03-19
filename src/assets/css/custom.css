@@ -1,0 +1,119 @@
+.dataTables_info {
+	width: 50%;
+    float: left;
+}
+.top {
+	margin-top: 20px;
+}
+.paginate_button.page-item.active > a {
+	background-color: rgba(39,169,248,1);
+    color: #fff;
+    box-shadow: none !important;
+    border: 0 !important;
+    margin-left: 5px !important;
+}
+.paginate_button.page-item > a {
+    box-shadow: none !important;
+    border: 0 !important;
+    margin-left: 5px !important;
+}
+#coinlist_filter > label > input.form-control {
+	border: 1px solid #eee;
+    border-radius: 0px; 
+    box-shadow: none;
+}
+.red {
+	color: red;
+}
+.green {
+	color: green;
+}
+
+.coin_pump_now {
+    background-color: rgb(234, 255, 234) !important;
+}
+
+.coin_dump_now {
+    background-color: rgb(255, 234, 234) !important;
+}
+
+.coin_pump {
+    background-color: white !important;
+    transition: background-color 1s !important;
+}
+
+.coin_dump {
+    background-color: white !important;
+    transition: background-color 1s !important;
+}
+
+div#bids_table_wrapper {
+    padding: 0 !important;
+}
+div#ask_table_wrapper {
+    padding: 0 !important;
+}
+div#market_table_wrapper {
+    padding: 0 !important;
+}
+.dataTables_length {
+    width: 50%;
+    float: left;
+}
+
+table#bids_table thead {
+    display:block;
+}
+table#bids_table tbody {
+    height:265px;
+    overflow-y:auto;
+    width: 100%;
+    display:block;
+}
+table#bids_table tr {
+    width: 100%;
+    display: -webkit-box;     
+    display: -moz-box;        
+    display: -ms-flexbox;     
+    display: -webkit-flex;   
+    display: flex; 
+}
+table#bids_table tr th, table#bids_table tr td{
+    -webkit-box-flex: 2;    
+    -moz-box-flex: 2;         
+    -webkit-flex: 2;          
+    -ms-flex: 2;              
+    flex: 2; 
+}
+
+table#ask_table thead {
+    display:block;
+}
+table#ask_table tbody {
+    height:265px;
+    overflow-y:auto;
+    width: 100%;
+    display:block;
+}
+table#ask_table tr {
+    width: 100%;
+    display: -webkit-box;     
+    display: -moz-box;        
+    display: -ms-flexbox;     
+    display: -webkit-flex;   
+    display: flex; 
+}
+table#ask_table tr th, table#ask_table tr td{
+    -webkit-box-flex: 2;    
+    -moz-box-flex: 2;         
+    -webkit-flex: 2;          
+    -ms-flex: 2;              
+    flex: 2; 
+}
+
+.mt-0 {
+	margin-top: 0px;
+}
+.mb-0 {
+	margin-bottom: 0px;	
+}

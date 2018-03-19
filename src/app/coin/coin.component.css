@@ -1,0 +1,23 @@
+/* table#bids_table thead .sorting:before, table#bids_table thead .sorting_asc:before, table#bids_table thead .sorting_desc:before, table#bids_table thead .sorting_asc_disabled:before, table#bids_table thead .sorting_desc_disabled:before {
+    content: none !important;
+}
+table#bids_table thead .sorting:after, table#bids_table thead .sorting_asc:after, table#bids_table thead .sorting_desc:after, table#bids_table thead .sorting_asc_disabled:after, table#bids_table thead .sorting_desc_disabled:after {
+    content: none !important;
+}
+table#ask_table thead .sorting:before, table#ask_table thead .sorting_asc:before, table#ask_table thead .sorting_desc:before, table#ask_table thead .sorting_asc_disabled:before, table#ask_table thead .sorting_desc_disabled:before {
+    content: none !important;
+}
+table#ask_table thead .sorting:after, table#ask_table thead .sorting_asc:after, table#ask_table thead .sorting_desc:after, table#ask_table thead .sorting_asc_disabled:after, table#ask_table thead .sorting_desc_disabled:after {
+    content: none !important;
+}
+
+table#market_table thead .sorting:before, table#market_table thead .sorting_asc:before, table#market_table thead .sorting_desc:before, table#market_table thead .sorting_asc_disabled:before, table#market_table thead .sorting_desc_disabled:before {
+    content: none !important;
+}
+table#market_table thead .sorting:after, table#market_table thead .sorting_asc:after, table#market_table thead .sorting_desc:after, table#market_table thead .sorting_asc_disabled:after, table#market_table thead .sorting_desc_disabled:after {
+    content: none !important;
+} */
+
+.curr_size {
+    font-size: 13px;
+}

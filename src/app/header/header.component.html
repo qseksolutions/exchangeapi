@@ -1,0 +1,17 @@
+<div class="coin-datatable">
+  <div class="tab-btn">
+    <div class="container">
+      <ul class="nav nav-tabs text-center" role="tablist">
+        <li role="presentation" [ngClass]="url == '' ? 'active' : ''">
+          <!-- <a href="#exchange" aria-controls="exchange" role="tab" data-toggle="tab">EXCHANGE</a> -->
+          <a href="{{base_url}}">EXCHANGE</a>
+        </li>
+        <li role="presentation" [ngClass]="url == 'allexchange' ? 'active' : ''">
+          <a href="{{base_url}}allexchange">All EXCHANGE</a>
+        </li>
+        <li role="presentation" [ngClass]="url == 'coinorderbook' ? 'active' : ''">
+          <a href="{{base_url}}coinorderbook">COIN ORDER BOOK</a>
+        </li>
+      </ul>
+    </div>
+  </div>

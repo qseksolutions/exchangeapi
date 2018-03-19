@@ -1,0 +1,204 @@
+<div class="single-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12" *ngIf="coin">
+        <div class="single-coin-top">
+          <div class="coin-heading">
+            <span class="single-coin-img">
+              <img src="assets/images/{{coin.market_currency | lowercase}}.png" class="img-responsive" onError="this.src='assets/images/not-found-50.png'"/>
+            </span>&ensp;
+
+            <h5 class="single-coin-name" style=" width: 100%;"> {{coin.coin_name}}
+              <span class="coin-shortname">({{coin.market_currency}})</span>
+              <span _ngcontent-c2="" class="coin-shortname" style="margin-left: 15%;">Exchange : {{coin.exchange}}</span>
+              <span style="float: right;font-size: 15px;margin-top: 1%;">Page refresh in : <span id="timer">{{countDown | async}}</span> second</span>
+            </h5>
+          </div>
+
+          <div class="coin-value-box">
+            <div class="value-card main_last gray-text" >
+              <h4 class="value-title">Last</h4>
+              <div class="coin-btc-value main_last_color" [ngClass]="coin.last > 0 ? 'green-text' : 'red-text'">
+                <span class="value-count" id="last_price">
+                   {{coin.last | number : '1.0-8'}} <span class="curr_size">{{coincurr}}</span></span>
+                <i class="fa icon-set last_class" [ngClass]="coin.last > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+              </div>
+            </div>
+
+            <div class="value-card main_bid gray-text">
+              <h4 class="value-title">Bid</h4>
+              <div class="coin-btc-value main_bid_color" [ngClass]="coin.volume > 0 ? 'green-text' : 'red-text'">
+                <span class="value-count" id="bid_price">
+                   {{coin.bid | number : '1.0-8'}} <span class="curr_size">{{coincurr}}</span></span>
+                <i class="fa icon-set bid_class" [ngClass]="coin.bid > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+              </div>
+            </div>
+
+            <div class="value-card main_ask gray-text" >
+              <h4 class="value-title">Ask</h4>
+              <div class="coin-btc-value main_ask_color" [ngClass]="coin.volume > 0 ? 'green-text' : 'red-text'">
+                <span class="value-count" id="ask_price">
+                   {{coin.ask | number : '1.0-8'}} <span class="curr_size">{{coincurr}}</span></span>
+                <i class="fa icon-set ask_class" [ngClass]="coin.ask > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+              </div>
+            </div>
+
+            <div class="value-card main_volumn gray-text">
+              <h4 class="value-title">Volume</h4>
+              <!-- <div class="coin-btc-value main_volumn_color" [ngClass]="coin.volume > 0 ? 'green-text' : 'red-text'"> -->
+              <div class="coin-btc-value main_volumn_color">
+                <p class="value-count" id="volumn_price" style="font-size: 11px;margin-bottom:  0;">
+                  {{coin.volume | number : '1.0-2'}}
+                  <span class="curr_size" style="font-size: 11px;">{{coin.market_currency}}</span>
+                </p>
+                <span class="value-count" id="volumn_base_price">
+                  {{coin.base_volume | number : '1.0-2'}}
+                  <span class="curr_size">{{coin.base_currency}}</span>
+                </span>
+                <!-- <i class="fa icon-set volumn_class" [ngClass]="coin.volume > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i> -->
+              </div>
+            </div>
+
+            <div class="value-card gray-text">
+              <h4 class="value-title">24H High</h4>
+              <div class="coin-btc-value">
+                <span class="value-count">
+                   {{coin.high | number : '1.0-8'}} <span class="curr_size">{{coincurr}}</span></span>
+              </div>
+            </div>
+
+            <div class="value-card gray-text">
+              <h4 class="value-title">24H Low</h4>
+              <div class="coin-btc-value">
+                <span class="value-count">{{coin.low | number : '1.0-8'}} <span class="curr_size">{{coincurr}}</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 ccol-sm-12 col-md-12">
+        <h3 class="table-heading">
+          ORDER BOOK
+        </h3>
+      </div>
+      <div class="col-xs-12 ccol-sm-12 col-md-6">
+        <div class="border-top-none table-content mb-0">
+          <h5 class="table-subtitle">BIDS</h5>
+        </div>
+        <div class="border-top-none table-content mt-0" *ngIf="showloaderbid"  style="text-align:center;">
+          <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
+        </div>
+        <div class="border-top-none table-content" *ngIf="!showloaderbid">
+          <table class="table table-responsive" id="bids_table" style="width: 100% !important">
+            <thead>
+              <tr>
+                <th style="width: 25% !important">Sum</th>
+                <th style="width: 25% !important">Total</th>
+                <th style="width: 25% !important">Size ({{coincoin}})</th>
+                <th style="width: 25% !important">Bid ({{coincurr}})</th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="bidsData == ''">
+              <tr>
+                <td colspan="4" align="center">No Data Found</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="bidsData != ''">
+              <tr *ngFor="let bids of bidsData; let i = index" id="tr_bids_{{i}}">
+                <td *ngIf="bids.sum >= 1000" id="bids_sum_{{i}}">{{bids.sum | number : '1.0-5'}}</td>
+                <td *ngIf="bids.sum < 1000" id="bids_sum_{{i}}">{{bids.sum | number : '1.0-8'}}</td>
+                <td *ngIf="bids.total >= 1000" id="bids_total_{{i}}">{{bids.total | number : '1.0-5'}}</td>
+                <td *ngIf="bids.total < 1000" id="bids_total_{{i}}">{{bids.total | number : '1.0-8'}}</td>
+                <td *ngIf="bids.size >= 1000" id="bids_size_{{i}}">{{bids.size | number : '1.0-5'}}</td>
+                <td *ngIf="bids.size < 1000" id="bids_size_{{i}}">{{bids.size | number : '1.0-8'}}</td>
+                <td *ngIf="bids.bid >= 1000" id="bids_bid_{{i}}">{{bids.bid | number : '1.0-5'}}</td>
+                <td *ngIf="bids.bid < 1000" id="bids_bid_{{i}}">{{bids.bid | number : '1.0-8'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-xs-12 ccol-sm-12 col-md-6">
+        <div class="border-top-none table-content mb-0">
+          <h5 class="table-subtitle">ASKS</h5>
+        </div>
+        <div class="border-top-none table-content mt-0" *ngIf="showloaderask" style="text-align:center;">
+          <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
+        </div>
+        <div class="border-top-none table-content" *ngIf="!showloaderask">
+          <table class="table table-responsive" id="ask_table">
+            <thead>
+              <tr>
+                <th>Ask ({{coincurr}})</th>
+                <th>Size ({{coincoin}})</th>
+                <th>Total</th>
+                <th>Sum</th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="askData == ''">
+              <tr>
+                <td colspan="4" align="center">No Data Found</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="askData != ''">
+              <tr *ngFor="let asks of askData; let i = index" id="tr_asks_{{i}}">
+                <td *ngIf="asks.ask >= 1000" id="asks_ask_{{i}}">{{asks.ask | number : '1.0-5'}}</td>
+                <td *ngIf="asks.ask < 1000" id="asks_ask_{{i}}">{{asks.ask | number : '1.0-8'}}</td>
+                <td *ngIf="asks.size >= 1000" id="asks_size_{{i}}">{{asks.size | number : '1.0-5'}}</td>
+                <td *ngIf="asks.size < 1000" id="asks_size_{{i}}">{{asks.size | number : '1.0-8'}}</td>
+                <td *ngIf="asks.total >= 1000" id="asks_total_{{i}}">{{asks.total | number : '1.0-5'}}</td>
+                <td *ngIf="asks.total < 1000" id="asks_total_{{i}}">{{asks.total | number : '1.0-8'}}</td>
+                <td *ngIf="asks.sum >= 1000" id="asks_sum_{{i}}">{{asks.sum | number : '1.0-5'}}</td>
+                <td *ngIf="asks.sum < 1000" id="asks_sum_{{i}}">{{asks.sum | number : '1.0-8'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-xs-12 ccol-sm-12 col-md-12">
+        <h3 class="table-heading">
+          MARKET HISTORY
+        </h3>
+        <div class="border-top-none table-content" *ngIf="showloadermkt" style="text-align:center;">
+          <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
+        </div>
+        <div class="border-top-none table-content mt-0" *ngIf="!showloadermkt">
+          <table class="table table-responsive" id="market_table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Buy/Sell</th>
+                <th>Bid/Ask</th>
+                <th>Total Units({{coincoin}})</th>
+                <th>Total Cost({{coincurr}})</th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="marketdata == ''">
+              <tr>
+                <td colspan="5" align="center">No Data Found</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="marketdata != ''">
+              <tr *ngFor="let mkt of marketdata; let i = index" id="tr_mkt_{{i}}">
+                <td width="20%" id="mkt_date_{{i}}">{{mkt.datetime | date: 'dd/MM/yyyy h:mm:ss a'}}</td>
+                <td width="20%" id="mkt_type_{{i}}" class="text-uppercase" [ngClass]="mkt.side == 'buy' ? 'green-text' : 'red-text'">{{mkt.side}}
+                  <i class="fa" [ngClass]="mkt.side == 'buy' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                </td>
+                <td *ngIf="mkt.price >= 1000" width="20%" id="mkt_price_{{i}}">{{mkt.price | number : '1.0-5'}}</td>
+                <td *ngIf="mkt.price < 1000" width="20%" id="mkt_price_{{i}}">{{mkt.price | number : '1.0-8'}}</td>
+                <td *ngIf="mkt.amount >= 1000" width="20%" id="mkt_qty_{{i}}">{{mkt.amount  | number : '1.0-5'}}</td>
+                <td *ngIf="mkt.amount < 1000" width="20%" id="mkt_qty_{{i}}">{{mkt.amount  | number : '1.0-8'}}</td>
+                <td *ngIf="mkt.price*mkt.amount >= 1000" width="20%" id="mkt_total_{{i}}">{{mkt.price*mkt.amount | number : '1.0-5'}}</td>
+                <td *ngIf="mkt.price*mkt.amount < 1000" width="20%" id="mkt_total_{{i}}">{{mkt.price*mkt.amount | number : '1.0-8'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
