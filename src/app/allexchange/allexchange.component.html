@@ -126,7 +126,6 @@
                   <tr>
                     <th>Coin</th>
                     <th>Exchange</th>
-                    <th>Base</th>
                     <th>Last Price</th>
                     <th>Change</th>
                     <th>Bid</th>
@@ -144,7 +143,7 @@
               
                 <tbody>
                   <tr>
-                    <td colspan="12" align="center">No data found</td>
+                    <td colspan="11" align="center">No data found</td>
                   </tr>
                 </tbody>
               </table>
@@ -157,7 +156,6 @@
                 <div class="table-item-rhs">
                   <div class="table-item">
                     <div class="table-head-list">Exchange</div>
-                    <div class="table-head-list">Base</div>
                     <div class="table-head-list">Last Price</div>
                     <div class="table-head-list">Change</div>
                     <div class="table-head-list">Bid</div>
@@ -185,7 +183,6 @@
                   <div class="table-item-rhs">
                     <div class="table-item" *ngFor="let item of coin.coindata">
                       <div class="table-body-list">{{item.exchange}}</div>
-                      <div class="table-body-list">{{item.base_currency}}</div>
                       <div class="table-body-list" id="coin_last_{{item.ms_id}}">{{item.last | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_change_{{item.ms_id}}" [ngClass]="(((item.last-item.prev_day)/item.last)*100) > 0 ? 'green' : 'red'">{{((item.last-item.prev_day)/item.last)*100 | number : '1.0-2'}}%</div>
                       <div class="table-body-list" id="coin_bid_{{item.ms_id}}">{{item.bid | number : '1.0-8'}}</div>
@@ -207,9 +204,8 @@
               <table class="table table-responsive" id="tbl-exchange" *ngIf="allresult == ''">
                 <thead>
                   <tr>
-                    <th>Coin</th>
                     <th>Exchange</th>
-                    <th>Base</th>
+                    <th>Coin</th>
                     <th>Last Price</th>
                     <th>Change</th>
                     <th>Bid</th>
@@ -227,20 +223,19 @@
 
                 <tbody>
                   <tr>
-                    <td colspan="12" align="center">No data found</td>
+                    <td colspan="11" align="center">No data found</td>
                   </tr>
                 </tbody>
               </table>
               <div class="table-head" *ngIf="allresult != ''">
                 <div class="table-item-lhs">
                   <div class="table-item">
-                    <div class="table-head-list">Coin</div>
+                    <div class="table-head-list">Exchange</div>
                   </div>
                 </div>
                 <div class="table-item-rhs">
                   <div class="table-item">
-                    <div class="table-head-list">Exchange</div>
-                    <div class="table-head-list">Base</div>
+                    <div class="table-head-list">Coin</div>
                     <div class="table-head-list">Last Price</div>
                     <div class="table-head-list">Change</div>
                     <div class="table-head-list">Bid</div>
@@ -261,14 +256,13 @@
                   <div class="table-item-lhs">
                     <div class="table-item">
                       <div class="table-body-list">
-                        <a href="{{base_url}}coin/{{coin.ms_id}}">{{coin.coin}}</a>
+                        {{coin.exchange}}
                       </div>
                     </div>
                   </div>
                   <div class="table-item-rhs">
                     <div class="table-item" *ngFor="let item of coin.coindata">
-                      <div class="table-body-list">{{item.exchange}}</div>
-                      <div class="table-body-list">{{item.base_currency}}</div>
+                      <div class="table-body-list"><a href="{{base_url}}coin/{{coin.ms_id}}">{{item.market_name}}</a></div>
                       <div class="table-body-list" id="coin_last_{{item.ms_id}}">{{item.last | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_change_{{item.ms_id}}" [ngClass]="(((item.last-item.prev_day)/item.last)*100) > 0 ? 'green' : 'red'">{{((item.last-item.prev_day)/item.last)*100 | number : '1.0-2'}}%</div>
                       <div class="table-body-list" id="coin_bid_{{item.ms_id}}">{{item.bid | number : '1.0-8'}}</div>

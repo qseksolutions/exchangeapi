@@ -142,11 +142,11 @@ export class AllexchangeComponent implements OnInit {
             let l = -1;
             let j = 0;
             resData.data.map(function (val, i) {
-              if (tempnamenew !== val['market_name']) {
+              if (tempnamenew !== val['exchange']) {
                 j = 0;
                 l++;
-                tempnamenew = val['market_name'];
-                temparraydata[l] = { 'ms_id': val['ms_id'], 'coin': val['market_name'], 'coindata': [val] };
+                tempnamenew = val['exchange'];
+                temparraydata[l] = { 'ms_id': val['ms_id'], 'exchange': val['exchange'], 'coindata': [val] };
               } else {
                 j++;
                 temparraydata[l]['coindata'][j] = val;
@@ -214,11 +214,11 @@ export class AllexchangeComponent implements OnInit {
             let l = -1;
             let j = 0;
             resData.data.map(function (val, i) {
-              if (tempnamenew !== val['market_name']) {
+              if (tempnamenew !== val['exchange']) {
                 j = 0;
                 l++;
-                tempnamenew = val['market_name'];
-                temparraydata[l] = { 'ms_id': val['ms_id'], 'coin': val['market_name'], 'coindata': [val] };
+                tempnamenew = val['exchange'];
+                temparraydata[l] = { 'ms_id': val['ms_id'], 'exchange': val['exchange'], 'coindata': [val] };
               } else {
                 j++;
                 temparraydata[l]['coindata'][j] = val;
@@ -557,11 +557,11 @@ export class AllexchangeComponent implements OnInit {
             let l = -1;
             let j = 0;
             resData.data.map(function (val, i) {
-              if (tempnamenew !== val['market_name']) {
+              if (tempnamenew !== val['exchange']) {
                 j = 0;
                 l++;
-                tempnamenew = val['market_name'];
-                temparraydata[l] = { 'ms_id': val['ms_id'], 'coin': val['market_name'], 'coindata': [val] };
+                tempnamenew = val['exchange'];
+                temparraydata[l] = { 'ms_id': val['ms_id'], 'exchange': val['exchange'], 'coindata': [val] };
               } else {
                 j++;
                 temparraydata[l]['coindata'][j] = val;
@@ -576,11 +576,11 @@ export class AllexchangeComponent implements OnInit {
             let l = -1;
             let j = 0;
             resData.data.map(function (val, i) {
-              if (tempnamenew !== val['market_name']) {
+              if (tempnamenew !== val['exchange']) {
                 j = 0;
                 l++;
-                tempnamenew = val['market_name'];
-                temparraydata[l] = { 'ms_id': val['ms_id'], 'coin': val['market_name'], 'coindata': [val] };
+                tempnamenew = val['exchange'];
+                temparraydata[l] = { 'ms_id': val['ms_id'], 'exchange': val['exchange'], 'coindata': [val] };
               } else {
                 j++;
                 temparraydata[l]['coindata'][j] = val;
