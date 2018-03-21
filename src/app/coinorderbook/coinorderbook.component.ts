@@ -267,13 +267,6 @@ export class CoinorderbookComponent implements OnInit {
             setTimeout(() => {
               $('#tr_mkt_' + i).addClass('coin_pump');
             }, 1000);
-          } else {
-            $('#tr_mkt_' + i).removeClass('coin_pump_now');
-            $('#tr_mkt_' + i).removeClass('coin_pump');
-            $('#tr_mkt_' + i).addClass('coin_pump_now');
-            setTimeout(() => {
-              $('#tr_mkt_' + i).addClass('coin_pump');
-            }, 1000);
           }
           const date = this.datePipe.transform(result[i]['timestamp'], 'dd/MM/yyyy h:mm:ss a');
           $('#mkt_date_' + i).html(date);

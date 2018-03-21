@@ -37,6 +37,9 @@ export class CoinComponent implements OnInit {
   showloaderbid: any;
   showloaderask: any;
   showloadermkt: any;
+  limit: any = 10;
+  start: any = 0;
+  next: any = 1;
 
   // tslint:disable-next-line:max-line-length
   constructor(private exchangeService: ExchangeService, private router: Router, private http: Http, private decimalpipe: DecimalPipe, private lowercasepipe: LowerCasePipe, private datePipe: DatePipe) { }
@@ -53,16 +56,23 @@ export class CoinComponent implements OnInit {
     }, 13000);
   }
 
-  addCommas(nStr) {
-    nStr += '';
-    const x = nStr.split('.');
-    const x1 = x[0];
-    const x2 = x.length > 1 ? '.' + x[1] : '';
-    const rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      this.x11 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return this.x11 + x2;
+  nextpage() {
+    this.start = this.limit * this.next;
+    this.next++;
+    this.coinmarketdata();
+  }
+
+  prevpage() {
+    this.next--;
+    this.start = this.limit * this.next;
+    this.coinmarketdata();
+  }
+
+  datachange(value) {
+    this.limit = value;
+    this.next = 1;
+    this.start = 0;
+    this.coinmarketdata();
   }
 
   realsinglecoindata(coin) {
@@ -259,66 +269,71 @@ export class CoinComponent implements OnInit {
               }
             }
             this.tempaskData = ab.asks;
-
-            if (res.data.order.length > 0) {
-              const result = res.data.order;
-              for (let i = 0; i < result.length; i++) {
-                if (this.tempmarketdata[i]['price'] > result[i]['price']) {
-                  $('#tr_mkt_' + i).removeClass('coin_pump_now');
-                  $('#tr_mkt_' + i).removeClass('coin_pump');
-                  $('#tr_mkt_' + i).addClass('coin_dump_now');
-                  setTimeout(() => {
-                    $('#tr_mkt_' + i).addClass('coin_dump');
-                  }, 1000);
-                } else if (this.tempmarketdata[i]['price'] < result[i]['price']) {
-                  $('#tr_mkt_' + i).removeClass('coin_dump_now');
-                  $('#tr_mkt_' + i).removeClass('coin_dump');
-                  $('#tr_mkt_' + i).addClass('coin_pump_now');
-                  setTimeout(() => {
-                    $('#tr_mkt_' + i).addClass('coin_pump');
-                  }, 1000);
-                }
-                const date = this.datePipe.transform(result[i]['datetime'], 'dd/MM/yyyy h:mm:ss a');
-                $('#mkt_date_' + i).html(date);
-                if (result[i]['side'] === 'buy') {
-                  $('#mkt_type_' + i).removeClass('red-text');
-                  $('#mkt_type_' + i).addClass('green-text');
-                  this.icon = ' <i class="fa fa-arrow-up"></i>';
-                } else {
-                  $('#mkt_type_' + i).removeClass('green-text');
-                  $('#mkt_type_' + i).addClass('red-text');
-                  this.icon = ' <i class="fa fa-arrow-down"></i>';
-                }
-                $('#mkt_type_' + i).html(result[i]['side'] + this.icon);
-
-                if (result[i]['price'] >= 1000) {
-                  const Price = this.decimalpipe.transform(result[i]['price'], '1.0-5');
-                  $('#mkt_price_' + i).html(Price);
-                } else {
-                  const Price = this.decimalpipe.transform(result[i]['price'], '1.0-8');
-                  $('#mkt_price_' + i).html(Price);
-                }
-
-                if (result[i]['amount'] >= 1000) {
-                  const Quantity = this.decimalpipe.transform(result[i]['amount'], '1.0-5');
-                  $('#mkt_qty_' + i).html(Quantity);
-                } else {
-                  const Quantity = this.decimalpipe.transform(result[i]['amount'], '1.0-8');
-                  $('#mkt_qty_' + i).html(Quantity);
-                }
-
-                if (result[i]['price'] * result[i]['amount'] >= 1000) {
-                  const Total = this.decimalpipe.transform(result[i]['price'] * result[i]['amount'], '1.0-5');
-                  $('#mkt_total_' + i).html(Total);
-                } else {
-                  const Total = this.decimalpipe.transform(result[i]['price'] * result[i]['amount'], '1.0-8');
-                  $('#mkt_total_' + i).html(Total);
-                }
-              }
-              this.tempmarketdata = result;
-            }
           }
+        });
+        this.exchangeService.markethistorydata(this.coincoin + '-' + this.coincurr, this.coinexch, this.limit, this.start).subscribe(resData => {
+          if (resData.status == true) {
+            const result = resData.data;
+            for (let i = 0; i < result.length; i++) {
+              if (this.tempmarketdata[i]['rate'] > result[i]['rate']) {
+                $('#tr_mkt_' + i).removeClass('coin_pump_now');
+                $('#tr_mkt_' + i).removeClass('coin_pump');
+                $('#tr_mkt_' + i).addClass('coin_dump_now');
+                setTimeout(() => {
+                  $('#tr_mkt_' + i).addClass('coin_dump');
+                }, 1000);
+              } else if (this.tempmarketdata[i]['rate'] < result[i]['rate']) {
+                $('#tr_mkt_' + i).removeClass('coin_dump_now');
+                $('#tr_mkt_' + i).removeClass('coin_dump');
+                $('#tr_mkt_' + i).addClass('coin_pump_now');
+                setTimeout(() => {
+                  $('#tr_mkt_' + i).addClass('coin_pump');
+                }, 1000);
+              }
+              const date = this.datePipe.transform(result[i]['timestamp'], 'dd/MM/yyyy h:mm:ss a');
+              $('#mkt_date_' + i).html(date);
+              if (result[i]['order_type'] === 'BUY') {
+                $('#mkt_type_' + i).removeClass('red-text');
+                $('#mkt_type_' + i).addClass('green-text');
+                this.icon = ' <i class="fa fa-arrow-up"></i>';
+              } else {
+                $('#mkt_type_' + i).removeClass('green-text');
+                $('#mkt_type_' + i).addClass('red-text');
+                this.icon = ' <i class="fa fa-arrow-down"></i>';
+              }
+              $('#mkt_type_' + i).html(result[i]['order_type'] + this.icon);
 
+              if (result[i]['rate'] >= 1000) {
+                const Price = this.decimalpipe.transform(result[i]['rate'], '1.0-5');
+                $('#mkt_price_' + i).html(Price);
+              } else {
+                const Price = this.decimalpipe.transform(result[i]['rate'], '1.0-8');
+                $('#mkt_price_' + i).html(Price);
+              }
+
+              if (result[i]['quantity'] >= 1000) {
+                const Quantity = this.decimalpipe.transform(result[i]['quantity'], '1.0-5');
+                $('#mkt_qty_' + i).html(Quantity);
+              } else {
+                const Quantity = this.decimalpipe.transform(result[i]['quantity'], '1.0-8');
+                $('#mkt_qty_' + i).html(Quantity);
+              }
+
+              if (result[i]['total'] >= 1000) {
+                const Total = this.decimalpipe.transform(result[i]['total'], '1.0-5');
+                $('#mkt_total_' + i).html(Total);
+              } else {
+                const Total = this.decimalpipe.transform(result[i]['total'], '1.0-8');
+                $('#mkt_total_' + i).html(Total);
+              }
+            }
+            this.tempmarketdata = resData.data;
+            this.count = 11;
+            this.countDown = timer(0, 1000).pipe(
+              take(this.count),
+              map(() => --this.count)
+            );
+          }
         });
       }
       this.count = 11;
@@ -391,32 +406,41 @@ export class CoinComponent implements OnInit {
               $('.top').hide();
             }, 100);
             this.showloaderask = false;
-
-            this.marketdata = res.data.order;
-            this.tempmarketdata = res.data.order;
-            $('#market_table').DataTable().destroy();
-            setTimeout(() => {
-              $('#market_table').DataTable({
-                'dom': '<"top"l>rt<"bottom"p><"clear">',
-                'pageLength': 10,
-                'lengthMenu': [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
-                // 'ordering': false,
-              });
-            }, 100);
+          } else {
+            this.bidsData = '';
+            this.askData = '';
+            this.showloaderbid = false;
+            this.showloaderask = false;
+          }
+        });
+        this.exchangeService.markethistorydata(this.coincoin + '-' + this.coincurr, this.coinexch, this.limit, this.start).subscribe(resData => {
+          if (resData.status === true) {
+            this.marketdata = resData.data;
+            this.tempmarketdata = resData.data;
             this.showloadermkt = false;
             this.countDown = timer(0, 1000).pipe(
               take(this.count),
               map(() => --this.count)
             );
           } else {
-            this.bidsData = '';
-            this.askData = '';
             this.marketdata = '';
-            this.showloaderbid = false;
-            this.showloaderask = false;
             this.showloadermkt = false;
           }
         });
+      }
+    });
+  }
+
+  coinmarketdata() {
+    this.showloadermkt = true;
+    this.exchangeService.markethistorydata(this.coincoin + '-' + this.coincurr, this.coinexch, this.limit, this.start).subscribe(resData => {
+      if (resData.status === true) {
+        this.marketdata = resData.data;
+        this.tempmarketdata = resData.data;
+        this.showloadermkt = false;
+      } else {
+        this.marketdata = '';
+        this.showloadermkt = false;
       }
     });
   }
