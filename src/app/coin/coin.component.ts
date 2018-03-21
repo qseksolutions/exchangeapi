@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import * as myGlobals from './../global';
 import { ExchangeService } from '../exchange.service';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe, LowerCasePipe } from '@angular/common';
 import { timer } from 'rxjs/observable/timer';
 import { take, map } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ declare var $;
   selector: 'app-coin',
   templateUrl: './coin.component.html',
   styleUrls: ['./coin.component.css'],
-  providers: [ExchangeService, DatePipe, DecimalPipe],
+  providers: [ExchangeService, DatePipe, DecimalPipe, LowerCasePipe],
 })
 export class CoinComponent implements OnInit {
 
@@ -31,6 +31,7 @@ export class CoinComponent implements OnInit {
   tempaskData: any;
   coincurr: any;
   coincoin: any;
+  coinexch: any;
   marketdata: any;
   tempmarketdata: any;
   showloaderbid: any;
@@ -38,7 +39,7 @@ export class CoinComponent implements OnInit {
   showloadermkt: any;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private exchangeService: ExchangeService, private router: Router, private http: Http, private decimalpipe: DecimalPipe, private datePipe: DatePipe) { }
+  constructor(private exchangeService: ExchangeService, private router: Router, private http: Http, private decimalpipe: DecimalPipe, private lowercasepipe: LowerCasePipe, private datePipe: DatePipe) { }
 
   ngOnInit() {
     const curl = window.location.href;
@@ -134,7 +135,7 @@ export class CoinComponent implements OnInit {
         }
         this.tempcoin = resData.data;
 
-        this.exchangeService.getbidask(this.coincoin, this.coincurr).subscribe(res => {
+        this.exchangeService.getbidask(this.coincoin, this.coincurr, this.coinexch).subscribe(res => {
           if (res.status === true) {
             const ab = res.data.bidask;
             for (let i = 0; i < ab.bids.length; i++) {
@@ -334,12 +335,15 @@ export class CoinComponent implements OnInit {
     this.showloadermkt = true;
     this.exchangeService.getsinglecoindata(coin).subscribe(resData => {
       if (resData.status === true) {
+        console.log(resData);
         this.tempcoin = resData.data;
         this.coin = resData.data;
         this.coincurr = resData.data.base_currency;
         this.coincoin = resData.data.market_currency;
+        const exchange = this.lowercasepipe.transform(resData.data.exchange);
+        this.coinexch = exchange;
 
-        this.exchangeService.getbidask(this.coincoin, this.coincurr).subscribe(res => {
+        this.exchangeService.getbidask(this.coincoin, this.coincurr, this.coinexch).subscribe(res => {
           if (res.status === true) {
             const ab = res.data.bidask;
             for (let i = 0; i < ab.bids.length; i++) {

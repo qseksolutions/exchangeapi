@@ -180,6 +180,17 @@
       <div class="border-top-none table-content" *ngIf="showloadermkt" style="text-align:center;">
         <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
       </div>
+      <div class="border-top-none table-content mt-0" style="margin:0;">
+        <div class="col-md-2" style="padding: 0;margin-top: 2%;margin-bottom: 2%;">
+          <label class="col-md-4" style="padding: 0;"> Show :</label> 
+          <select class="form-control col-md-6" style="width: 50%;" #l id="length_data" (change)="datachange(l.value)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
       <div class="border-top-none table-content mt-0" *ngIf="!showloadermkt">
         <table class="table table-responsive" id="market_table" *ngIf="marketdata == ''">
           <thead>
@@ -211,19 +222,31 @@
 
           <tbody>
             <tr *ngFor="let mkt of marketdata; let i = index" id="tr_mkt_{{i}}">
-              <td width="20%" id="mkt_date_{{i}}">{{mkt.datetime | date: 'dd/MM/yyyy h:mm:ss a'}}</td>
-              <td width="20%" id="mkt_type_{{i}}" class="text-uppercase" [ngClass]="mkt.side == 'buy' ? 'green-text' : 'red-text'">{{mkt.side}}
-                <i class="fa" [ngClass]="mkt.side == 'buy' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+              <td width="20%" id="mkt_date_{{i}}">{{mkt.timestamp | date: 'dd/MM/yyyy h:mm:ss a'}}</td>
+              <td width="20%" id="mkt_type_{{i}}" class="text-uppercase" [ngClass]="mkt.order_type == 'BUY' ? 'green-text' : 'red-text'">{{mkt.order_type}}
+                <i class="fa" [ngClass]="mkt.order_type == 'BUY' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
               </td>
-              <td *ngIf="mkt.price >= 1000" width="20%" id="mkt_price_{{i}}">{{mkt.price | number : '1.0-5'}}</td>
-              <td *ngIf="mkt.price < 1000" width="20%" id="mkt_price_{{i}}">{{mkt.price | number : '1.0-8'}}</td>
-              <td *ngIf="mkt.amount >= 1000" width="20%" id="mkt_qty_{{i}}">{{mkt.amount | number : '1.0-5'}}</td>
-              <td *ngIf="mkt.amount < 1000" width="20%" id="mkt_qty_{{i}}">{{mkt.amount | number : '1.0-8'}}</td>
-              <td *ngIf="mkt.price*mkt.amount >= 1000" width="20%" id="mkt_total_{{i}}">{{mkt.price*mkt.amount | number : '1.0-5'}}</td>
-              <td *ngIf="mkt.price*mkt.amount < 1000" width="20%" id="mkt_total_{{i}}">{{mkt.price*mkt.amount | number : '1.0-8'}}</td>
+              <td *ngIf="mkt.rate >= 1000" width="20%" id="mkt_price_{{i}}">{{mkt.rate | number : '1.0-5'}}</td>
+              <td *ngIf="mkt.rate < 1000" width="20%" id="mkt_price_{{i}}">{{mkt.rate | number : '1.0-8'}}</td>
+              <td *ngIf="mkt.quantity >= 1000" width="20%" id="mkt_qty_{{i}}">{{mkt.quantity | number : '1.0-5'}}</td>
+              <td *ngIf="mkt.quantity < 1000" width="20%" id="mkt_qty_{{i}}">{{mkt.quantity | number : '1.0-8'}}</td>
+              <td *ngIf="mkt.total >= 1000" width="20%" id="mkt_total_{{i}}">{{mkt.total | number : '1.0-5'}}</td>
+              <td *ngIf="mkt.total < 1000" width="20%" id="mkt_total_{{i}}">{{mkt.total | number : '1.0-8'}}</td>
             </tr>
           </tbody>
         </table>
+        <div class="bottom pull-right">
+          <div class="dataTables_paginate paging_simple_numbers" id="coinlist_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous" [style.pointer-events]="this.next == 1 ? 'none' : ''" id="coinlist_previous" (click)="prevpage();">
+                <a href="javascript:;" class="page-link">Previous</a>
+              </li>
+              <li class="paginate_button page-item next" id="coinlist_next" (click)="nextpage();">
+                <a href="javascript:;" class="page-link">Next</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

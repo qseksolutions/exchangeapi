@@ -10,6 +10,7 @@ import { CoinComponent } from './coin/coin.component';
 import { AllexchangeComponent } from './allexchange/allexchange.component';
 import { CoinorderbookComponent } from './coinorderbook/coinorderbook.component';
 import { HeaderComponent } from './header/header.component';
+import { ArbiComponent } from './arbi/arbi.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { HeaderComponent } from './header/header.component';
     CoinComponent,
     AllexchangeComponent,
     CoinorderbookComponent,
-    HeaderComponent
+    HeaderComponent,
+    ArbiComponent
   ],
   imports: [
     RouterModule.forRoot([
