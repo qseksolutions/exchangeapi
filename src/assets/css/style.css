@@ -126,8 +126,6 @@ body{
     padding-top: 30px;
 }
 .table-content table{
-	border-collapse: separate;
-    border-spacing: 0px 5px;
     margin-bottom: 0;
 }
 .table-content .table>thead>tr>th{
@@ -150,8 +148,11 @@ body{
 	vertical-align: middle;
 }
 
-.table-content .table>tbody>tr>td{
+.table-content .table>tbody>tr{
 	background-color: #fff;
+}
+
+.table-content .table>tbody>tr>td{
 	font-size: 13px;
 	border-top: solid 1px #eee;
     border-bottom: solid 1px #eee;
