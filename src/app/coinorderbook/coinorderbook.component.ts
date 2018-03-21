@@ -303,7 +303,7 @@ export class CoinorderbookComponent implements OnInit {
             const Quantity = this.decimalpipe.transform(result[i]['quantity'], '1.0-8');
             $('#mkt_qty_' + i).html(Quantity);
           }
-
+ 
           if (result[i]['total'] >= 1000) {
             const Total = this.decimalpipe.transform(result[i]['total'], '1.0-5');
             $('#mkt_total_' + i).html(Total);
