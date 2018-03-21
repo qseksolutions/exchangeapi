@@ -12,11 +12,7 @@ export const getcoinlistlist = 'getcoinlist';
 export const getexchangelistlist = 'getexchangelist';
 
 export const new_api_url = 'https://influx.exchangeapi.xyz/app/trade/';
-<<<<<<< HEAD
 // export const new_api_url = 'http://35.174.58.234:3000/trade/';
-=======
-//export const new_api_url = 'http://35.174.58.234:3000/trade/';
->>>>>>> 572287f9a94baa5c927c1c3c28c9499005ec9cfb
 export const alltradelist = 'alltrade';
 export const tradebyexchangelist = 'tradebyexchange';
 export const markethistory = 'markethistory';
