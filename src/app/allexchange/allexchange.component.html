@@ -191,9 +191,11 @@
                       <div class="table-body-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.base_volume | number : '1.0-2'}}</div>
                       <div class="table-body-list" id="coin_low_{{item.ms_id}}">{{item.low | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_high_{{item.ms_id}}">{{item.high | number : '1.0-8'}}</div>
-                      <div class="table-body-list" id="coin_order_{{item.ms_id}}">{{item.open_buy_orders}}</div>
-                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}">{{item.open_sell_orders}}</div>
-                      <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
+                      <div class="table-body-list" id="coin_order_{{item.ms_id }}" *ngIf="item.open_buy_orders == 0">NaN</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders == 0">NaN</div>
+                      <div class="table-body-list" id="coin_order_{{item.ms_id}}" *ngIf="item.open_buy_orders != 0">{{item.open_buy_orders}}</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders != 0">{{item.open_sell_orders}}</div>
+                        <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
                       <!-- <div class="table-body-list" id="coin_fee_{{item.ms_id}}">{{item.transaction_fee}}</div> -->
                     </div>
                   </div>
@@ -271,9 +273,11 @@
                       <div class="table-body-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.base_volume | number : '1.0-2'}}</div>
                       <div class="table-body-list" id="coin_low_{{item.ms_id}}">{{item.low | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_high_{{item.ms_id}}">{{item.high | number : '1.0-8'}}</div>
-                      <div class="table-body-list" id="coin_order_{{item.ms_id}}">{{item.open_buy_orders}}</div>
-                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}">{{item.open_sell_orders}}</div>
-                      <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
+                      <div class="table-body-list" id="coin_order_{{item.ms_id }}" *ngIf="item.open_buy_orders == 0">NaN</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders == 0">NaN</div>
+                      <div class="table-body-list" id="coin_order_{{item.ms_id}}" *ngIf="item.open_buy_orders != 0">{{item.open_buy_orders}}</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders != 0">{{item.open_sell_orders}}</div>
+                       <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
                       <!-- <div class="table-body-list" id="coin_fee_{{item.ms_id}}">{{item.transaction_fee}}</div> -->
                     </div>
                   </div>
