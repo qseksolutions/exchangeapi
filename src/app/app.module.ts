@@ -29,7 +29,7 @@ import { ArbiComponent } from './arbi/arbi.component';
       { path: 'coin/:id', component: CoinComponent },
       { path: 'allexchange', component: AllexchangeComponent },
       { path: 'coinorderbook', component: CoinorderbookComponent },
-      { path: 'arbi', component: ArbiComponent },
+      { path: 'arbi', component: ArbiComponent},
     ]),
     BrowserModule,
     FormsModule,
