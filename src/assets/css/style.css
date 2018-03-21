@@ -121,8 +121,10 @@ body{
 
 
 .table-content{
-	margin: 50px 0px;
+	margin: 20px 0px;
     overflow-y: hidden;
+    border-top: solid 1px #869dad;
+    padding-top: 30px;
 }
 .table-content table{
 	border-collapse: separate;
@@ -193,9 +195,15 @@ body{
 	font-size: 18px;
 }
 .table-heading{
-	margin-bottom: 0;
+	margin-bottom: 0px;
+	margin-top: 0px;
 }
 
+
+.border-top-none.table-content{
+	padding-top: 0px;
+	margin-top: 0px;
+}
 /*end-table*/
 
 
@@ -417,7 +425,7 @@ body{
 }
 
 .table-head .table-head-list {
-    padding: 3px 5px;
+    padding: 8px 5px;
 }
 
 .table-item-lhs {
