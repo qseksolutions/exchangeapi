@@ -133,8 +133,7 @@ table.dataTable thead .sorting_asc_disabled:before,
 table.dataTable thead .sorting_asc_disabled:after, 
 table.dataTable thead .sorting_desc_disabled:before, 
 table.dataTable thead .sorting_desc_disabled:after{
-    bottom: 50%;
-    transform: translate(50% ,-50%);
+    bottom: calc(50% - 17px);
 
 }
 
