@@ -123,6 +123,24 @@ body{
  
  
 /*start-table*/
+table.dataTable thead .sorting:before, 
+table.dataTable thead .sorting:after, 
+table.dataTable thead .sorting_asc:before, 
+table.dataTable thead .sorting_asc:after, 
+table.dataTable thead .sorting_desc:before, 
+table.dataTable thead .sorting_desc:after, 
+table.dataTable thead .sorting_asc_disabled:before, 
+table.dataTable thead .sorting_asc_disabled:after, 
+table.dataTable thead .sorting_desc_disabled:before, 
+table.dataTable thead .sorting_desc_disabled:after{
+    bottom: calc(50% - 17px);
+
+}
+
+
+.table-content table.dataTable{
+	border-collapse: collapse !important;
+}
 
 .table-content{
 	margin: 20px 0px;
@@ -171,7 +189,7 @@ body{
 .table-content .table>tbody>tr>td input[type="text"] {
     width: 50px;
     border-radius: 5px;
-    border: solid 1px #869dad;
+    border: solid 1px #78909c;
     text-align: center;
 }
 
