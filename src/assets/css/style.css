@@ -171,7 +171,7 @@ body{
 .table-content .table>tbody>tr>td input[type="text"] {
     width: 50px;
     border-radius: 5px;
-    border: solid 1px #869dad;
+    border: solid 1px #78909c;
     text-align: center;
 }
 
