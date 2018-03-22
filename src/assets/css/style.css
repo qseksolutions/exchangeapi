@@ -168,6 +168,17 @@ body{
 
 }
 
+.table-content .table>tbody>tr>td input[type="text"] {
+    width: 50px;
+    border-radius: 5px;
+    border: solid 1px #869dad;
+    text-align: center;
+}
+
+.table-content .table>tbody>tr>td input[type="text"]:focus{
+	outline: none;
+}
+
 .table-content.arbi-table .table>tbody>tr>td:first-child ,
 .table-content.arbi-table .table>tbody>tr>td:nth-of-type(10n+4) ,
 .table-content.arbi-table .table>tbody>tr>td:nth-of-type(10n+7){
