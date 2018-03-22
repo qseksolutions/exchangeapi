@@ -10,11 +10,10 @@ export const getbidasklist = 'getbidask';
 export const getbidaskandorderlist = 'getbidaskandorder';
 export const getcoinlistlist = 'getcoinlist';
 export const getexchangelistlist = 'getexchangelist';
+export const getarbilist = 'getArbi';
 
 export const new_api_url = 'https://influx.exchangeapi.xyz/app/trade/';
-
 // export const new_api_url = 'http://35.174.58.234:3000/trade/';
-
 export const alltradelist = 'alltrade';
 export const tradebyexchangelist = 'tradebyexchange';
 export const markethistory = 'markethistory';
