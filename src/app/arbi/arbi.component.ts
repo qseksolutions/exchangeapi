@@ -143,33 +143,38 @@ export class ArbiComponent implements OnInit {
         for (let i = 0; i < exchange1.length; i++) {
           resData.data.exchange2.map(function (val, k) {
             if (exchange1[i].last > val['last']) {
-              temparraydata[l] = {
-                'coin': exchange1[i].coin,
-                'market_name': exchange1[i].market_name,
-                'buy_price': val['last'],
-                'buyexchange': val['exchange'],
-                'buyvolume': val['volume'],
-                'sell_price': exchange1[i].last,
-                'sellexchange': exchange1[i].exchange,
-                'sellvolume': exchange1[i].volume,
-                'fee': exchange1[i].trade_fee + val['trade_fee'],
-              };
+              if (val['last'] - exchange1[i].last - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
+                temparraydata[l] = {
+                  'coin': exchange1[i].coin,
+                  'market_name': exchange1[i].market_name,
+                  'buy_price': val['last'],
+                  'buyexchange': val['exchange'],
+                  'buyvolume': val['volume'],
+                  'sell_price': exchange1[i].last,
+                  'sellexchange': exchange1[i].exchange,
+                  'sellvolume': exchange1[i].volume,
+                  'fee': exchange1[i].trade_fee + val['trade_fee'],
+                };
+              }
             } else {
-              temparraydata[l] = {
-                'coin': exchange1[i].coin,
-                'market_name': exchange1[i].market_name,
-                'buy_price': exchange1[i].last,
-                'buyexchange': exchange1[i].exchange,
-                'buyvolume': exchange1[i].volume,
-                'sell_price': val['last'],
-                'sellexchange': val['exchange'],
-                'sellvolume': val['volume'],
-                'fee': exchange1[i].trade_fee + val['trade_fee'],
-              };
+              if (exchange1[i].last - val['last'] - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
+                temparraydata[l] = {
+                  'coin': exchange1[i].coin,
+                  'market_name': exchange1[i].market_name,
+                  'buy_price': exchange1[i].last,
+                  'buyexchange': exchange1[i].exchange,
+                  'buyvolume': exchange1[i].volume,
+                  'sell_price': val['last'],
+                  'sellexchange': val['exchange'],
+                  'sellvolume': val['volume'],
+                  'fee': exchange1[i].trade_fee + val['trade_fee'],
+                };
+              }
             }
             l++;
           });
         }
+        console.log(temparraydata);
         this.coindata = temparraydata;
         console.log(this.coindata);
         this.showloader = false;

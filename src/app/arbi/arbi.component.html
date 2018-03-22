@@ -114,8 +114,8 @@
                 </tbody>
                 <tbody *ngIf="coindata != ''">
                   <ng-container *ngFor="let coin of coindata;let i = index">
-                    <tr *ngIf="coin.sell_price-coin.buy_price-coin.fee > 0">
-                    <!-- <tr> -->
+                    <!-- <tr *ngIf="coin.sell_price-coin.buy_price-coin.fee > 0"> -->
+                    <tr>
                       <td>{{coin.market_name}}</td>
                       <td>{{coin.buyexchange}} </td>
                       <td>{{coin.buy_price}} </td>
