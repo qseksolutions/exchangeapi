@@ -574,6 +574,34 @@ table.dataTable thead .sorting_desc_disabled:after{
 	border-right: none
 }
 
+.search-coin-box {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.search-coin-box label {
+    font-size: 12px;
+    width: 100px;
+    text-transform: capitalize;
+    color: #78909c;
+    margin-right: 10px;
+}
+
+.search-coin-box input {
+    border-color: #78909c;
+    border: solid 1px #78909c;
+    border-radius: 5px;
+    width: auto;
+    display: inline-block;
+    padding: 4px 12px;
+    outline: none;
+}
+
+.search-coin-box input:focus {
+    outline: none;
+}
+
+
 /*start-responsive*/
 
 @media screen and (max-width: 1199px){
