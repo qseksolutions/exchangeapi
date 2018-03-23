@@ -6,3 +6,5 @@
        $('.tr_fixed').removeClass('fixed-header');
     }
 });*/
+
+$('.select2').select2();

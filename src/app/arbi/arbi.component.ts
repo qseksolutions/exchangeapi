@@ -76,11 +76,15 @@ export class ArbiComponent implements OnInit {
       }
     });
     setTimeout(() => {
+      $('#sel_coin').select2('destroy');
       for (let i = 0; i < this.coinlist.length; i++) {
         if (this.coinlist[i]['coin_symbol'] == this.coinsel) {
           $('#sel_coin').val(this.coinlist[i]['coin_symbol']);
         }
       }
+      setTimeout(() => {
+        $('#sel_coin').select2();
+      }, 1000);
       for (let i = 0; i < this.exchangelist.length; i++) {
         if (this.exchangelist[i]['id'] == this.exch1) {
           $('#sel_exchange').val(this.exchangelist[i]['id']);
@@ -95,15 +99,23 @@ export class ArbiComponent implements OnInit {
       this.arbitabledata();
     }, 2000);
     setInterval(() => {
-      this.realtimearbitabledata();
+      // this.realtimearbitabledata();
     }, 14000);
   }
 
-  coinchange(value) {
+  ngAfterViewInit() {
+    $('#sel_coin').on('change', (e) => {
+      this.coincoin = $(e.target).val();
+      localStorage.setItem('coincoin', this.coincoin);
+      this.arbitabledata();
+    });
+  };
+
+  /* coinchange(value) {
     this.coincoin = value;
     localStorage.setItem('coincoin', value);
     this.arbitabledata();
-  }
+  } */
 
   toggleClass(coin, index: number) {
     this.selectedIndex = index;
@@ -177,6 +189,12 @@ export class ArbiComponent implements OnInit {
             }
           });
         }
+        temparraydata = temparraydata.reduce(function (field, e1) {
+          var matches = field.filter(function (e2) { return e1.buyexchange == e2.buyexchange && e1.sellexchange == e2.sellexchange });
+          if (matches.length == 0) {
+            field.push(e1);
+          } return field;
+        }, []);
         for (let i = 0; i < temparraydata.length; i++) {
           const old_profit = this.tempcoindata[i].sell_price - this.tempcoindata[i].buy_price - this.tempcoindata[i].fee;
           const new_profit = temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee;
@@ -268,6 +286,12 @@ export class ArbiComponent implements OnInit {
             }
           });
         }
+        temparraydata = temparraydata.reduce(function (field, e1) {
+          var matches = field.filter(function (e2) { return e1.buyexchange == e2.buyexchange && e1.sellexchange == e2.sellexchange });
+          if (matches.length == 0) {
+            field.push(e1);
+          } return field;
+        }, []);
         this.coindata = temparraydata;
         this.tempcoindata = temparraydata;
         this.showloader = false;
@@ -285,5 +309,4 @@ export class ArbiComponent implements OnInit {
       }
     });
   }
-
 }

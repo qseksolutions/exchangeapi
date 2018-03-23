@@ -476,6 +476,7 @@ export class AllexchangeComponent implements OnInit {
             let tempname = '';
             let l = -1;
             let j = 0;
+            console.log(resData.data);
             resData.data.map(function (val, i) {
               if (tempname !== val['market_name']) {
                 j = 0;
@@ -487,6 +488,7 @@ export class AllexchangeComponent implements OnInit {
                 temparray[l]['coindata'][j] = val;
               }
             });
+            console.log(temparray);
             this.result = temparray;
             this.tempresult = temparray;
             // this.result = resData.data;
