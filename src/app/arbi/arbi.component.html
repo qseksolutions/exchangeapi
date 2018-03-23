@@ -52,9 +52,9 @@
 
               <div class="filter-box filter-box-right">
                 <div>
-                  <!-- <h5 class="text-right">Page refresh in :
+                  <h5 class="text-right">Page refresh in :
                     <span id="timer">{{countDown | async}}</span> second
-                  </h5> -->
+                  </h5>
                 </div>
                 <div class="filter-exchange text-right">
                   <div class="filter-input clearfix mb-0">
@@ -115,21 +115,21 @@
                 <tbody *ngIf="coindata != ''">
                   <ng-container *ngFor="let coin of coindata;let i = index">
                     <!-- <tr *ngIf="coin.sell_price-coin.buy_price-coin.fee > 0"> -->
-                    <tr>
-                      <td>{{coin.market_name}}</td>
-                      <td>{{coin.buyexchange}} </td>
-                      <td>{{coin.buy_price}} </td>
+                    <tr id="tr_arbi_{{i}}">
+                      <td id="td_market_name_{{i}}">{{coin.market_name}}</td>
+                      <td id="td_buyexchange_{{i}}">{{coin.buyexchange}} </td>
+                      <td id="td_buy_price_{{i}}">{{coin.buy_price}} </td>
                       <input type="hidden" id="buy_price_{{i}}" value="{{coin.buy_price}}"/>
-                      <td>{{coin.buyvolume | number: '1.0-2'}} </td>
-                      <td>{{coin.sellexchange}} </td>
-                      <td>{{coin.sell_price}} </td>
+                      <td id="td_buyvolume_{{i}}">{{coin.buyvolume | number: '1.0-2'}} </td>
+                      <td id="td_sellexchange_{{i}}">{{coin.sellexchange}} </td>
+                      <td id="td_sell_price_{{i}}">{{coin.sell_price}} </td>
                       <input type="hidden" id="sell_price_{{i}}" value="{{coin.sell_price}}" />
-                      <td>{{coin.sellvolume | number: '1.0-2'}} </td>
+                      <td id="td_sellvolume_{{i}}">{{coin.sellvolume | number: '1.0-2'}} </td>
                       <td><input type="text" id="qty_{{i}}" value="1" (keyup)="changeprofit(i);"/></td>
                       <td id="td_fee_{{i}}">{{coin.fee | number: '1.0-8'}} </td>
                       <input type="hidden" id="fee_{{i}}" value="{{coin.fee}}" />
                       <td id="td_profit_{{i}}">{{coin.sell_price-coin.buy_price-coin.fee | number: '1.0-6'}} </td>
-                      <td>{{((coin.sell_price-coin.buy_price-coin.fee)/coin.sell_price)*100 | number: '1.0-2'}}% </td>
+                      <td id="td_percentage_{{i}}">{{((coin.sell_price-coin.buy_price-coin.fee)/coin.sell_price)*100 | number: '1.0-2'}}% </td>
                     </tr>
                   </ng-container>
 								</tbody>

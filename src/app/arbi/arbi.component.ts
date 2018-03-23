@@ -17,6 +17,7 @@ export class ArbiComponent implements OnInit {
 
   public base_url: any = myGlobals.base_url;
   coindata: any;
+  tempcoindata: any;
   countDown: any;
   count: any = 11;
   coinlist: any;
@@ -93,6 +94,9 @@ export class ArbiComponent implements OnInit {
       this.exchange2 = $('#sel_exchange2').val();
       this.arbitabledata();
     }, 2000);
+    setInterval(() => {
+      this.realtimearbitabledata();
+    }, 14000);
   }
 
   coinchange(value) {
@@ -131,11 +135,9 @@ export class ArbiComponent implements OnInit {
     $('#td_fee_' + index).html(feehtml);
   }
 
-  arbitabledata() {
-    this.showloader = true;
+  realtimearbitabledata() {
     this.exchangeService.getarbi(this.coincoin, this.coincurr, this.exchange1, this.exchange2).subscribe(resData => {
       if (resData.status === true) {
-        console.log(resData);
         let exchange1 = resData.data.exchange1;
         let exchange2 = resData.data.exchange2;
         let temparraydata = [];
@@ -143,7 +145,7 @@ export class ArbiComponent implements OnInit {
         for (let i = 0; i < exchange1.length; i++) {
           resData.data.exchange2.map(function (val, k) {
             if (exchange1[i].last > val['last']) {
-              if (val['last'] - exchange1[i].last - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
+              if (exchange1[i].last - val['last'] - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
                 temparraydata[l] = {
                   'coin': exchange1[i].coin,
                   'market_name': exchange1[i].market_name,
@@ -155,9 +157,10 @@ export class ArbiComponent implements OnInit {
                   'sellvolume': exchange1[i].volume,
                   'fee': exchange1[i].trade_fee + val['trade_fee'],
                 };
+                l++;
               }
             } else {
-              if (exchange1[i].last - val['last'] - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
+              if (val['last'] - exchange1[i].last - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
                 temparraydata[l] = {
                   'coin': exchange1[i].coin,
                   'market_name': exchange1[i].market_name,
@@ -169,18 +172,116 @@ export class ArbiComponent implements OnInit {
                   'sellvolume': val['volume'],
                   'fee': exchange1[i].trade_fee + val['trade_fee'],
                 };
+                l++;
               }
             }
-            l++;
           });
         }
-        console.log(temparraydata);
+        for (let i = 0; i < temparraydata.length; i++) {
+          const old_profit = this.tempcoindata[i].sell_price - this.tempcoindata[i].buy_price - this.tempcoindata[i].fee;
+          const new_profit = temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee;
+          if (old_profit < new_profit) {
+            $('#tr_arbi_' + i).removeClass('coin_dump_now');
+            $('#tr_arbi_' + i).removeClass('coin_dump');
+            $('#tr_arbi_' + i).addClass('coin_pump_now');
+            setTimeout(() => {
+              $('#tr_arbi_' + i).addClass('coin_pump');
+            }, 1000);
+          } else if (old_profit > new_profit) {
+            $('#tr_arbi_' + i).removeClass('coin_pump_now');
+            $('#tr_arbi_' + i).removeClass('coin_pump');
+            $('#tr_arbi_' + i).addClass('coin_dump_now');
+            setTimeout(() => {
+              $('#tr_arbi_' + i).addClass('coin_dump');
+            }, 1000);
+          }
+          const qty = $('#qty_' + i).val();
+          $('#td_market_name_' + i).html(temparraydata[i].market_name);
+          $('#td_buyexchange_' + i).html(temparraydata[i].buyexchange);
+          $('#td_buy_price_' + i).html(temparraydata[i].buy_price);
+          $('#buy_price_' + i).val(temparraydata[i].buy_price);
+          const buyvolume = this.decimalpipe.transform(temparraydata[i].buyvolume, '1.0-2');
+          $('#td_buyvolume_' + i).html(buyvolume);
+          $('#td_sellexchange_' + i).html(temparraydata[i].sellexchange);
+          $('#td_sell_price_' + i).html(temparraydata[i].sell_price);
+          $('#sell_price_' + i).val(temparraydata[i].sell_price);
+          const sellvolume = this.decimalpipe.transform(temparraydata[i].sellvolume, '1.0-2');
+          $('#td_sellvolume_' + i).html(sellvolume);
+          const inputfee = this.decimalpipe.transform(temparraydata[i].fee * qty, '1.0-8');
+          $('#td_fee_' + i).html(inputfee);
+          $('#fee_' + i).val(temparraydata[i].fee);
+          const tdprofit = this.decimalpipe.transform((temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee) * qty, '1.0-6');
+          $('#td_profit_' + i).html(tdprofit);
+          const tdpercentage = this.decimalpipe.transform(((temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee) / temparraydata[i].sell_price ) * 100, '1.0-2');
+          $('#td_percentage_' + i).html(tdpercentage + '%');
+        }
+        this.tempcoindata = temparraydata;
+        this.count = 11;
+        this.countDown = timer(0, 1000).pipe(
+          take(this.count),
+          map(() => --this.count)
+        );
+      }
+    });
+  }
+
+  arbitabledata() {
+    this.showloader = true;
+    this.exchangeService.getarbi(this.coincoin, this.coincurr, this.exchange1, this.exchange2).subscribe(resData => {
+      if (resData.status === true) {
+        let exchange1 = resData.data.exchange1;
+        let exchange2 = resData.data.exchange2;
+        let temparraydata = [];
+        let l = 0;
+        for (let i = 0; i < exchange1.length; i++) {
+          resData.data.exchange2.map(function (val, k) {
+            if (exchange1[i].last > val['last']) {
+              if (exchange1[i].last - val['last'] - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
+                temparraydata[l] = {
+                  'coin': exchange1[i].coin,
+                  'market_name': exchange1[i].market_name,
+                  'buy_price': val['last'],
+                  'buyexchange': val['exchange'],
+                  'buyvolume': val['volume'],
+                  'sell_price': exchange1[i].last,
+                  'sellexchange': exchange1[i].exchange,
+                  'sellvolume': exchange1[i].volume,
+                  'fee': exchange1[i].trade_fee + val['trade_fee'],
+                };
+                l++;
+              }
+            } else {
+              if (val['last'] - exchange1[i].last - (exchange1[i].trade_fee + val['trade_fee']) > 0) {
+                temparraydata[l] = {
+                  'coin': exchange1[i].coin,
+                  'market_name': exchange1[i].market_name,
+                  'buy_price': exchange1[i].last,
+                  'buyexchange': exchange1[i].exchange,
+                  'buyvolume': exchange1[i].volume,
+                  'sell_price': val['last'],
+                  'sellexchange': val['exchange'],
+                  'sellvolume': val['volume'],
+                  'fee': exchange1[i].trade_fee + val['trade_fee'],
+                };
+                l++;
+              }
+            }
+          });
+        }
         this.coindata = temparraydata;
-        console.log(this.coindata);
+        this.tempcoindata = temparraydata;
         this.showloader = false;
+        this.countDown = timer(0, 1000).pipe(
+          take(this.count),
+          map(() => --this.count)
+        );
       } else {
         this.coindata = '';
         this.showloader = false;
+        this.countDown = timer(0, 1000).pipe(
+          take(this.count),
+          map(() => --this.count)
+        );
       }
     });
   }

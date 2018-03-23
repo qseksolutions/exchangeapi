@@ -1,5 +1,5 @@
-export const base_url = 'https://exchangeapi.xyz/';
-//export const base_url = 'http://localhost:4200/';
+// export const base_url = 'https://exchangeapi.xyz/';
+export const base_url = 'http://localhost:4200/';
 
 export const api_url = 'https://api.exchangeapi.xyz/app/api/v1/';
 //export const api_url = 'http://52.52.127.230:3000/api/v1/';

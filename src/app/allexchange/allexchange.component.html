@@ -147,6 +147,9 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="col-md-12">
+                <input type="text" class="form-contorl" [(ngModel)]="term">
+              </div>
               <div class="table-head" *ngIf="result != ''">
                 <div class="table-item-lhs">
                   <div class="table-item">
@@ -172,7 +175,7 @@
                 </div>
               </div>
               <div class="main-tbody" *ngIf="result != ''">
-                <div class="table-body" *ngFor="let coin of result" id="tr_coin_{{coin.ms_id}}">
+                <div class="table-body" *ngFor="let coin of result | filter:term" id="tr_coin_{{coin.ms_id}}">
                   <div class="table-item-lhs">
                     <div class="table-item">
                       <div class="table-body-list">
