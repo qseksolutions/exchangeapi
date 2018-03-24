@@ -99,7 +99,7 @@ export class ArbiComponent implements OnInit {
       this.arbitabledata();
     }, 2000);
     setInterval(() => {
-      // this.realtimearbitabledata();
+      this.realtimearbitabledata();
     }, 14000);
   }
 
@@ -141,9 +141,9 @@ export class ArbiComponent implements OnInit {
     const sell_price = $('#sell_price_' + index).val();
     const fee = $('#fee_' + index).val();
     const qty = $('#qty_' + index).val();
-    const profit = this.decimalpipe.transform((sell_price - buy_price - fee) * qty, '1.0-6');
+    const profit = this.decimalpipe.transform((sell_price - buy_price - fee) * qty, '1.0-12');
     $('#td_profit_' + index).html(profit);
-    const feehtml = this.decimalpipe.transform(fee * qty, '1.0-8');
+    const feehtml = this.decimalpipe.transform(fee * qty, '1.0-12');
     $('#td_fee_' + index).html(feehtml);
   }
 
@@ -225,10 +225,10 @@ export class ArbiComponent implements OnInit {
           $('#sell_price_' + i).val(temparraydata[i].sell_price);
           const sellvolume = this.decimalpipe.transform(temparraydata[i].sellvolume, '1.0-2');
           $('#td_sellvolume_' + i).html(sellvolume);
-          const inputfee = this.decimalpipe.transform(temparraydata[i].fee * qty, '1.0-8');
+          const inputfee = this.decimalpipe.transform(temparraydata[i].fee * qty, '1.0-12');
           $('#td_fee_' + i).html(inputfee);
           $('#fee_' + i).val(temparraydata[i].fee);
-          const tdprofit = this.decimalpipe.transform((temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee) * qty, '1.0-6');
+          const tdprofit = this.decimalpipe.transform((temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee) * qty, '1.0-12');
           $('#td_profit_' + i).html(tdprofit);
           const tdpercentage = this.decimalpipe.transform(((temparraydata[i].sell_price - temparraydata[i].buy_price - temparraydata[i].fee) / temparraydata[i].sell_price ) * 100, '1.0-2');
           $('#td_percentage_' + i).html(tdpercentage + '%');
@@ -295,6 +295,14 @@ export class ArbiComponent implements OnInit {
         this.coindata = temparraydata;
         this.tempcoindata = temparraydata;
         this.showloader = false;
+        $('#coinlist').DataTable().destroy();
+        setTimeout(() => {
+          $('#arbitable').DataTable({
+            'dom': '<"top"f>rt<"bottom"><"clear">',
+            "order": [[10, "desc"]],
+            'pageLength': 10000000000000,
+          });
+        }, 100);
         this.countDown = timer(0, 1000).pipe(
           take(this.count),
           map(() => --this.count)
