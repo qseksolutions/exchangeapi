@@ -16,10 +16,12 @@ export class ExchangeService {
   getbidaskandorderlist: any = myGlobals.getbidaskandorderlist;
   getcoinlistlist: any = myGlobals.getcoinlistlist;
   getexchangelistlist: any = myGlobals.getexchangelistlist;
+  getarbilist: any = myGlobals.getarbilist;
 
   new_api_url: any = myGlobals.new_api_url;
   alltradelist: any = myGlobals.alltradelist;
   tradebyexchangelist: any = myGlobals.tradebyexchangelist;
+  markethistory: any = myGlobals.markethistory;
 
   constructor(private http: Http) { }
 
@@ -57,13 +59,14 @@ export class ExchangeService {
       .map((response: Response) => response.json());
   }
 
-  getbidask(coin, base) {
+  getbidask(coin, base, exchange) {
     const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const options = new RequestOptions({ headers: headers });
 
     const form = new URLSearchParams();
     form.append('coin', coin);
     form.append('base', base);
+    form.append('ex_id', exchange);
 
     return this.http.post(this.api_url + this.getbidasklist, form, options)
       .map((response: Response) => response.json());
@@ -76,9 +79,9 @@ export class ExchangeService {
     const form = new URLSearchParams();
     form.append('coin', coin);
     form.append('base', base);
-    form.append('exchange', exchange);
+    form.append('ex_id', exchange);
 
-    return this.http.post(this.api_url + this.getbidaskandorderlist, form, options)
+    return this.http.post(this.api_url + this.getbidasklist, form, options)
       .map((response: Response) => response.json());
   }
 
@@ -93,6 +96,20 @@ export class ExchangeService {
     const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.api_url + this.getexchangelistlist, options)
+      .map((response: Response) => response.json());
+  }
+  
+  getarbi(coin, base, exchange1, exchange2) {
+    const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const options = new RequestOptions({ headers: headers });
+
+    const form = new URLSearchParams();
+    form.append('coin', coin);
+    form.append('base', base);
+    form.append('exchange1', exchange1);
+    form.append('exchange2', exchange2);
+
+    return this.http.post(this.api_url + this.getarbilist, form, options)
       .map((response: Response) => response.json());
   }
 
@@ -116,6 +133,20 @@ export class ExchangeService {
     form.append('ex_id', ex_id);
 
     return this.http.post(this.new_api_url + this.tradebyexchangelist, form, options)
+      .map((response: Response) => response.json());
+  }
+  
+  markethistorydata(pair, ex_id, limit, start) {
+    const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const options = new RequestOptions({ headers: headers });
+
+    const form = new URLSearchParams();
+    form.append('market_name', pair);
+    form.append('ex_id', ex_id);
+    form.append('limit', limit);
+    form.append('start', start);
+
+    return this.http.post(this.new_api_url + this.markethistory, form, options)
       .map((response: Response) => response.json());
   }
 }

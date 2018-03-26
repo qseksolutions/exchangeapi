@@ -147,6 +147,12 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="search-coin-box">
+                <label>
+                  Search:
+                </label>
+                <input type="text" class="form-contorl" [(ngModel)]="term">
+              </div>
               <div class="table-head" *ngIf="result != ''">
                 <div class="table-item-lhs">
                   <div class="table-item">
@@ -172,17 +178,17 @@
                 </div>
               </div>
               <div class="main-tbody" *ngIf="result != ''">
-                <div class="table-body" *ngFor="let coin of result" id="tr_coin_{{coin.ms_id}}">
+                <div class="table-body" *ngFor="let coin of result | filter:term" id="tr_coin_{{coin.ms_id}}">
                   <div class="table-item-lhs">
                     <div class="table-item">
                       <div class="table-body-list">
-                        <a href="{{base_url}}coin/{{coin.ms_id}}">{{coin.coin}}</a>
+                        {{coin.coin}}
                       </div>
                     </div>
                   </div>
                   <div class="table-item-rhs">
                     <div class="table-item" *ngFor="let item of coin.coindata">
-                      <div class="table-body-list">{{item.exchange}}</div>
+                      <div class="table-body-list"><a href="{{base_url}}coin/{{item.ms_id}}">{{item.exchange}}</a></div>
                       <div class="table-body-list" id="coin_last_{{item.ms_id}}">{{item.last | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_change_{{item.ms_id}}" [ngClass]="(((item.last-item.prev_day)/item.last)*100) > 0 ? 'green' : 'red'">{{((item.last-item.prev_day)/item.last)*100 | number : '1.0-2'}}%</div>
                       <div class="table-body-list" id="coin_bid_{{item.ms_id}}">{{item.bid | number : '1.0-8'}}</div>
@@ -264,7 +270,7 @@
                   </div>
                   <div class="table-item-rhs">
                     <div class="table-item" *ngFor="let item of coin.coindata">
-                      <div class="table-body-list"><a href="{{base_url}}coin/{{coin.ms_id}}">{{item.market_name}}</a></div>
+                      <div class="table-body-list"><a href="{{base_url}}coin/{{item.ms_id}}">{{item.market_name}}</a></div>
                       <div class="table-body-list" id="coin_last_{{item.ms_id}}">{{item.last | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_change_{{item.ms_id}}" [ngClass]="(((item.last-item.prev_day)/item.last)*100) > 0 ? 'green' : 'red'">{{((item.last-item.prev_day)/item.last)*100 | number : '1.0-2'}}%</div>
                       <div class="table-body-list" id="coin_bid_{{item.ms_id}}">{{item.bid | number : '1.0-8'}}</div>
@@ -273,11 +279,19 @@
                       <div class="table-body-list" [style.display]="selectedColumn == 1 ? 'none':'table-cell'" id="coin_volumn_{{item.ms_id}}">{{item.base_volume | number : '1.0-2'}}</div>
                       <div class="table-body-list" id="coin_low_{{item.ms_id}}">{{item.low | number : '1.0-8'}}</div>
                       <div class="table-body-list" id="coin_high_{{item.ms_id}}">{{item.high | number : '1.0-8'}}</div>
+<<<<<<< HEAD
                       <div class="table-body-list" id="coin_order_{{item.ms_id }}" *ngIf="item.open_buy_orders == 0">NaN</div>
                       <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders == 0">NaN</div>
                       <div class="table-body-list" id="coin_order_{{item.ms_id}}" *ngIf="item.open_buy_orders != 0">{{item.open_buy_orders}}</div>
                       <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders != 0">{{item.open_sell_orders}}</div>
                        <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
+=======
+                      <div class="table-body-list" id="coin_order_{{item.ms_id}}" *ngIf="item.open_buy_orders == 0">NaN</div>
+                      <div class="table-body-list" id="coin_order_{{item.ms_id}}" *ngIf="item.open_buy_orders != 0">{{item.open_buy_orders}}</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders == 0">NaN</div>
+                      <div class="table-body-list" id="coin_sell_{{item.ms_id}}" *ngIf="item.open_sell_orders != 0">{{item.open_sell_orders}}</div>
+                      <!-- <div class="table-body-list" id="coin_confirm_{{item.ms_id}}">{{item.min_confirm}}</div> -->
+>>>>>>> develop
                       <!-- <div class="table-body-list" id="coin_fee_{{item.ms_id}}">{{item.transaction_fee}}</div> -->
                     </div>
                   </div>

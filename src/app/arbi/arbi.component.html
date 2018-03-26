@@ -1,0 +1,149 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-12 col-c-sm-12 col-xs-12">
+
+      <div class="tab-content">
+
+        <div class="table-panel-box">
+
+          <div class="main-table">
+
+            <div class="table-top">
+
+              <div class="filter-box">
+
+                <div class="filter-exchange">
+                  <div class="filter-input clearfix">
+                    <label>
+                      coin
+                    </label>
+                    <select class="selectpicker btn btn-default select2" id="sel_coin">
+                      <ng-container *ngFor="let coin of coinlist;let i = index">
+                        <option value="{{coin.coin_symbol}}">{{coin.coin_name}} ({{coin.coin_symbol}})</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="filter-markets">
+                  <div class="filter-coin">
+                    <label>Market</label>
+                    <ul class="list-unstyled coin-filter-btn">
+                      <li (click)="toggleClass('BTC',1)" [ngClass]="selectedIndex == 1 ? 'active':''" [style.pointer-events]="selectedIndex == 1 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">BTC</a>
+                      </li>
+                      <li (click)="toggleClass('ETH',2)" [ngClass]="selectedIndex == 2 ? 'active':''" [style.pointer-events]="selectedIndex == 2 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">ETH</a>
+                      </li>
+                      <li (click)="toggleClass('USD',3)" [ngClass]="selectedIndex == 3 ? 'active':''" [style.pointer-events]="selectedIndex == 3 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">USD</a>
+                      </li>
+                      <li (click)="toggleClass('USDT',4)" [ngClass]="selectedIndex == 4 ? 'active':''" [style.pointer-events]="selectedIndex == 4 ? 'none':'initial'">
+                        <a href="javascript:;" class="btn btn-coin">USDT</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+              </div>
+
+              <div class="filter-box filter-box-right">
+                <div>
+                  <h5 class="text-right">Page refresh in :
+                    <span id="timer">{{countDown | async}}</span> second
+                  </h5>
+                </div>
+                <div class="filter-exchange text-right">
+                  <div class="filter-input clearfix mb-0">
+                    <label>
+                      1st Exchange
+                    </label>
+                    <select class="selectpicker btn btn-default" #e id="sel_exchange" (change)="exchange1change(e.value)">
+                      <ng-container *ngFor="let exch of exchangelist;let i = index">
+                        <option value="{{exch.id}}">{{exch.name}}</option>
+                      </ng-container>
+                      <option value="all">All</option>
+                    </select>
+                  </div>
+
+                  <div class="filter-input clearfix mb-0">
+                    <label>
+                     2nd Exchange
+                    </label>
+                    <select class="selectpicker btn btn-default" #f id="sel_exchange2" (change)="exchange2change(f.value)">
+                      <ng-container *ngFor="let exch of exchangelist;let i = index">
+                        <option value="{{exch.id}}">{{exch.name}}</option>
+                      </ng-container>
+                      <option value="all">All</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="table-content arbi-table text-center" *ngIf="showloader">
+              <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
+            </div>
+            <div class="table-content arbi-table" *ngIf="!showloader">
+              <table class="table table-responsive" id="arbitable">
+								<thead>
+									<tr>
+										<th>Coin</th>
+										<th>Exchange</th>
+										<th>Buy Price</th>
+										<th>Volume</th>
+										<th>Exchange</th>
+										<th>Sell Price</th>
+										<th>Volume</th>
+										<th>Qty</th>
+										<th>Fee</th>
+										<th>Profit ({{coincurr}})</th>
+										<th>Profit (%)</th>
+									</tr>
+								</thead>
+
+                <tbody *ngIf="coindata == ''">
+                  <tr>
+                    <td colspan="11" align="center" style="border:0;">No Data Found</td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="coindata != ''">
+                  <ng-container *ngFor="let coin of coindata;let i = index">
+                    <!-- <tr *ngIf="coin.sell_price-coin.buy_price-coin.fee > 0"> -->
+                    <tr id="tr_arbi_{{i}}">
+                      <td id="td_market_name_{{i}}">{{coin.market_name}}</td>
+                      <td id="td_buyexchange_{{i}}">{{coin.buyexchange}} </td>
+                      <td id="td_buy_price_{{i}}">{{coin.buy_price}} </td>
+                      <input type="hidden" id="buy_price_{{i}}" value="{{coin.buy_price}}"/>
+                      <td id="td_buyvolume_{{i}}">{{coin.buyvolume | number: '1.0-2'}} </td>
+                      <td id="td_sellexchange_{{i}}">{{coin.sellexchange}} </td>
+                      <td id="td_sell_price_{{i}}">{{coin.sell_price}} </td>
+                      <input type="hidden" id="sell_price_{{i}}" value="{{coin.sell_price}}" />
+                      <td id="td_sellvolume_{{i}}">{{coin.sellvolume | number: '1.0-2'}} </td>
+                      <td><input type="text" id="qty_{{i}}" value="1" (keyup)="changeprofit(i);"/></td>
+                      <td id="td_fee_{{i}}">{{coin.fee | number: '1.0-12'}} </td>
+                      <input type="hidden" id="fee_{{i}}" value="{{coin.fee}}" />
+                      <td id="td_profit_{{i}}">{{coin.sell_price-coin.buy_price-coin.fee | number: '1.0-12'}} </td>
+                      <td id="td_percentage_{{i}}">{{((coin.sell_price-coin.buy_price-coin.fee)/coin.sell_price)*100 | number: '1.0-2'}}% </td>
+                    </tr>
+                  </ng-container>
+								</tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

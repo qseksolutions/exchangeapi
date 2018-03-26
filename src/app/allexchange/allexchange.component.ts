@@ -128,7 +128,7 @@ export class AllexchangeComponent implements OnInit {
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {
-                if (res.data[i]['pair'] === val['market_name']) {
+                if (res.data[i]['pair'] === val['market_name'] && res.data[i]['exchange'] == val['exchange']) {
                   val['volume'] = res.data[i]['volume'];
                   val['base_volume'] = res.data[i]['basevolume'];
                   val['high'] = res.data[i]['high'];
@@ -295,7 +295,7 @@ export class AllexchangeComponent implements OnInit {
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {
-                if (res.data[i]['pair'] === val['market_name']) {
+                if (res.data[i]['pair'] === val['market_name'] && res.data[i]['exchange'] == val['exchange']) {
                   val['volume'] = res.data[i]['volume'];
                   val['base_volume'] = res.data[i]['basevolume'];
                   val['high'] = res.data[i]['high'];
@@ -463,7 +463,7 @@ export class AllexchangeComponent implements OnInit {
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {
-                if (res.data[i]['pair'] === val['market_name']) {
+                if (res.data[i]['pair'] === val['market_name'] && res.data[i]['exchange'] == val['exchange']) {
                   val['volume'] = res.data[i]['volume'];
                   val['base_volume'] = res.data[i]['basevolume'];
                   val['high'] = res.data[i]['high'];
@@ -543,7 +543,7 @@ export class AllexchangeComponent implements OnInit {
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {
-                if (res.data[i]['pair'] === val['market_name']) {
+                if (res.data[i]['pair'] === val['market_name'] && res.data[i]['exchange'] == val['exchange']) {
                   val['volume'] = res.data[i]['volume'];
                   val['base_volume'] = res.data[i]['basevolume'];
                   val['high'] = res.data[i]['high'];

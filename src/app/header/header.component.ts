@@ -22,4 +22,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  destroyall() {
+    localStorage.clear();
+    location.href = this.base_url;
+  }
+
 }
