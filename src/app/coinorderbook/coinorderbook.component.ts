@@ -36,6 +36,7 @@ export class CoinorderbookComponent implements OnInit {
   coinexch: any;
   marketdata: any;
   tempmarketdata: any;
+  totalmarketdata: any;
   showloaderbid: any;
   showloaderask: any;
   showloadermkt: any;
@@ -306,6 +307,7 @@ export class CoinorderbookComponent implements OnInit {
           }
         }
         this.tempmarketdata = resData.data;
+        this.totalmarketdata = resData.totalCount;
         this.count = 11;
         this.countDown = timer(0, 1000).pipe(
           take(this.count),
@@ -380,6 +382,7 @@ export class CoinorderbookComponent implements OnInit {
       if (resData.status === true) {
         this.marketdata = resData.data;
         this.tempmarketdata = resData.data;
+        this.totalmarketdata = resData.totalCount;
         this.showloadermkt = false;
         this.countDown = timer(0, 1000).pipe(
           take(this.count),
@@ -402,6 +405,7 @@ export class CoinorderbookComponent implements OnInit {
       if (resData.status === true) {
         this.marketdata = resData.data;
         this.tempmarketdata = resData.data;
+        this.totalmarketdata = resData.totalCount;
         this.showloadermkt = false;
       } else {
         this.marketdata = '';

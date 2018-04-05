@@ -117,3 +117,9 @@ table#ask_table tr th, table#ask_table tr td{
 .mb-0 {
 	margin-bottom: 0px;	
 }
+.mt-10 {
+    margin-top: 10px;
+}
+.mt-20 {
+    margin-top: 20px;
+}

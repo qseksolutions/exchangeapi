@@ -56,7 +56,7 @@ export class AllexchangeComponent implements OnInit {
     if (table === 1) {
       this.getCoinTableData(this.exchangeName);
     } else if (table === 2) {
-      this.getExchangeTableData(this.exchangeName);
+      // this.getExchangeTableData(this.exchangeName);
     }
   }
 
@@ -66,7 +66,7 @@ export class AllexchangeComponent implements OnInit {
     if (table === 1) {
       this.getCoinTableData(this.exchangeName);
     } else if (table === 2) {
-      this.getExchangeTableData(this.exchangeName);
+      // this.getExchangeTableData(this.exchangeName);
     }
   }
 
@@ -76,7 +76,7 @@ export class AllexchangeComponent implements OnInit {
     if (filter === 'coin') {
       this.getCoinTableData(this.exchangeName);
     } else if (filter === 'exchange') {
-      this.getExchangeTableData(this.exchangeName);
+      // this.getExchangeTableData(this.exchangeName);
     }
     this.selectedTable = table;
   }
@@ -118,6 +118,12 @@ export class AllexchangeComponent implements OnInit {
       }
     }, 14000);
   }
+
+  /* getCoinTableData(coin) {
+    this.exchangeService.getdatafromjson().subscribe(resData => {
+      console.log(resData);
+    });
+  } */
 
   realtimeExchangetabledata(coin) {
     this.exchangeService.getAllExchange(this.coinexch, this.filter, coin).subscribe(resData => {
@@ -457,9 +463,11 @@ export class AllexchangeComponent implements OnInit {
     this.showloader = true;
     this.exchangeService.getAllExchange(this.coinexch, this.filter, coin).subscribe(resData => {
       if (resData.status === true) {
+        console.log(resData);
         this.showloader = false;
         this.exchangeService.changedata(this.period, this.coinexch).subscribe(res => {
           if (res.status === true) {
+            console.log(res);
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {
@@ -491,16 +499,6 @@ export class AllexchangeComponent implements OnInit {
             this.tempresult = temparray;
             // this.result = resData.data;
             // this.tempresult = resData.data;
-            /* if (resData.data.length > 0) {
-              $('#tbl-coins').DataTable().destroy();
-              setTimeout(() => {
-                $('#tbl-coins').DataTable({
-                  'dom': '<"top"lf>rt<"bottom"ip><"clear">',
-                  'lengthMenu': [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
-                  'pageLength': 10,
-                });
-              }, 100);
-            } */
             this.showloader = false;
           } else {
             let temparray = [];

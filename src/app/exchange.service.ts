@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import * as myGlobals from './global';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import { URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -18,12 +20,17 @@ export class ExchangeService {
   getexchangelistlist: any = myGlobals.getexchangelistlist;
   getarbilist: any = myGlobals.getarbilist;
 
+  json_url: any = myGlobals.json_url;
   new_api_url: any = myGlobals.new_api_url;
   alltradelist: any = myGlobals.alltradelist;
   tradebyexchangelist: any = myGlobals.tradebyexchangelist;
   markethistory: any = myGlobals.markethistory;
 
   constructor(private http: Http) { }
+
+  getdatafromjson(): Observable<any> {
+    return this.http.get("https://influx.exchangeapi.xyz/history.json").map((res: any) => res.json());
+  }
 
   getExchangeCoin(ex_id, coin) {
     const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -125,7 +132,10 @@ export class ExchangeService {
   } */
 
   changedata(period, ex_id) {
-    const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+    return this.http.get(this.json_url + "trade" + period + ".json").map((res: any) => res.json());
+
+    /* const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const options = new RequestOptions({ headers: headers });
 
     const form = new URLSearchParams();
@@ -133,7 +143,7 @@ export class ExchangeService {
     form.append('ex_id', ex_id);
 
     return this.http.post(this.new_api_url + this.tradebyexchangelist, form, options)
-      .map((response: Response) => response.json());
+      .map((response: Response) => response.json()); */
   }
   
   markethistorydata(pair, ex_id, limit, start) {
