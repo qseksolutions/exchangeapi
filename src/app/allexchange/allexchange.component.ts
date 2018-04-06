@@ -56,7 +56,7 @@ export class AllexchangeComponent implements OnInit {
     if (table === 1) {
       this.getCoinTableData(this.exchangeName);
     } else if (table === 2) {
-      // this.getExchangeTableData(this.exchangeName);
+      this.getExchangeTableData(this.exchangeName);
     }
   }
 
@@ -66,7 +66,7 @@ export class AllexchangeComponent implements OnInit {
     if (table === 1) {
       this.getCoinTableData(this.exchangeName);
     } else if (table === 2) {
-      // this.getExchangeTableData(this.exchangeName);
+      this.getExchangeTableData(this.exchangeName);
     }
   }
 
@@ -76,7 +76,7 @@ export class AllexchangeComponent implements OnInit {
     if (filter === 'coin') {
       this.getCoinTableData(this.exchangeName);
     } else if (filter === 'exchange') {
-      // this.getExchangeTableData(this.exchangeName);
+      this.getExchangeTableData(this.exchangeName);
     }
     this.selectedTable = table;
   }
@@ -99,17 +99,19 @@ export class AllexchangeComponent implements OnInit {
     this.exchangeService.getexchangelist().subscribe(resData => {
       if (resData.status === true) {
         this.exchangelist = resData.data;
+        setTimeout(() => {
+          if (this.exchangelist.length > 0) {
+            for (let i = 0; i < this.exchangelist.length; i++) {
+              if (this.exchangelist[i]['ex_id'] === 'bittrex') {
+                $('#sel_exchange').val(this.exchangelist[i]['ex_id']);
+              }
+            }
+            this.coinexch = $('#sel_exchange').val();
+            this.getCoinTableData(this.exchangeName);
+          }
+        }, 2000);
       }
     });
-    setTimeout(() => {
-      this.exchangelist.map(function (val, key) {
-        if (val['ex_id'] === 'bittrex') {
-          $('#sel_exchange').val(val['ex_id']);
-        }
-      });
-      this.coinexch = $('#sel_exchange').val();
-      this.getCoinTableData(this.exchangeName);
-    }, 2000);
     setInterval(() => {
       if (this.selectedTable === 1) {
         this.realtimeCoingetabledata(this.exchangeName);
@@ -463,11 +465,9 @@ export class AllexchangeComponent implements OnInit {
     this.showloader = true;
     this.exchangeService.getAllExchange(this.coinexch, this.filter, coin).subscribe(resData => {
       if (resData.status === true) {
-        console.log(resData);
         this.showloader = false;
         this.exchangeService.changedata(this.period, this.coinexch).subscribe(res => {
           if (res.status === true) {
-            console.log(res);
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {
@@ -536,8 +536,10 @@ export class AllexchangeComponent implements OnInit {
     this.showloader = true;
     this.exchangeService.getAllExchange(this.coinexch, this.filter, coin).subscribe(resData => {
       if (resData.status === true) {
+        console.log(resData);
         this.exchangeService.changedata(this.period, this.coinexch).subscribe(res => {
           if (res.status === true) {
+            console.log(res);
             this.changedata = res.data;
             for (let i = 0; i < res.data.length; i++) {
               resData.data.map(function (val, j) {

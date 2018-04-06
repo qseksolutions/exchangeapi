@@ -121,6 +121,12 @@
               <img src="../../assets/images/image_loader.gif" style="margin-top:2%;">
             </div>
             <div class="table-content table-change table1" *ngIf="!showloader" [ngClass]="selectedTable == 1 ? '' : 'hidden'">
+              <div class="search-coin-box">
+                <label>
+                  Search:
+                </label>
+                <input type="text" class="form-contorl" [(ngModel)]="term">
+              </div>
               <table class="table table-responsive" *ngIf="result == ''">
                 <thead>
                   <tr>
@@ -147,12 +153,6 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="search-coin-box">
-                <label>
-                  Search:
-                </label>
-                <input type="text" class="form-contorl" [(ngModel)]="term">
-              </div>
               <div class="table-head" *ngIf="result != ''">
                 <div class="table-item-lhs">
                   <div class="table-item">
