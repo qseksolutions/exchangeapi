@@ -41,9 +41,9 @@ export class CoinorderbookComponent implements OnInit {
   showloaderask: any;
   showloadermkt: any;
   selectedIndex: any = 1;
-  limit: any = 10;
-  start: any = 0;
-  next: any = 1;
+  limit: number = 10;
+  start: number = 0;
+  next: number = 1;
 
   // tslint:disable-next-line:max-line-length
   constructor(private exchangeService: ExchangeService, private router: Router, private http: Http, private decimalpipe: DecimalPipe, private datePipe: DatePipe) {
@@ -116,8 +116,9 @@ export class CoinorderbookComponent implements OnInit {
     this.coinmarketdata();
   }
 
-  datachange(value) {
+  datachange(value: number) {
     this.limit = value;
+    this.limit = +this.limit;
     this.next = 1;
     this.start = 0;
     this.coinmarketdata();
